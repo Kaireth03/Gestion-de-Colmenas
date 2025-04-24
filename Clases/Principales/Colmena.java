@@ -1,105 +1,70 @@
 package Clases.Principales;
 
-import java.util.ArrayList;
+import java.util.Date;
 
-class Colmena {
+public class Colmena {
     private String id;
     private String ubicacion;
-    private Date fechaCreacion;
-    private String razaAbejas;
+    private String tipo;
+    private byte cantidadAbejas;
+    private final Date fechaCreacion;
     private String estadoSalud;
-    private int numeroMarcos;
+    private float produccionMiel;
     private Date ultimaInspeccion;
     private String notasInspeccion;
 
-    public Colmena(String id, String ubicacion, String razaAbejas) {
+    public Colmena(String id, String ubicacion, String tipo, String estadoSalud, byte cantidadAbejas, float produccionMiel) {
         this.id = id;
         this.ubicacion = ubicacion;
+        this.tipo = tipo;
+        this.estadoSalud = estadoSalud;
+        this.cantidadAbejas = cantidadAbejas;
+        this.produccionMiel = produccionMiel;
         this.fechaCreacion = new Date();
-        this.razaAbejas = razaAbejas;
-        this.estadoSalud = "Saludable"; // Estado inicial
-        this.numeroMarcos = 10; // Número de marcos inicial
         this.ultimaInspeccion = null;
         this.notasInspeccion = "";
     }
 
-    // Métodos getter y setter para todos los atributos
-    public String getId() {
-        return id;
-    }
+    // Getters y Setters
+    public String getId() { return id; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public void setId(String id) { this.id = id; }
 
-    public String getUbicacion() {
-        return ubicacion;
-    }
+    public String getUbicacion() { return ubicacion; }
+    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
 
-    public void setUbicacion(String ubicacion) {
-        this.ubicacion = ubicacion;
-    }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
+    public byte getCantidadAbejas() { return cantidadAbejas; }
+    public void setCantidadAbejas(byte cantidadAbejas) { this.cantidadAbejas = cantidadAbejas; }
 
-    public String getEstadoSalud() {
-        return estadoSalud;
-    }
+    public float getProduccionMiel() { return produccionMiel; }
+    public void setProduccionMiel(float produccionMiel) { this.produccionMiel = produccionMiel; }
 
-    public void setEstadoSalud(String estadoSalud) {
-        this.estadoSalud = estadoSalud;
-    }
+    public Date getFechaCreacion() { return fechaCreacion; }
 
-    public Date getUltimaInspeccion() {
-        return ultimaInspeccion;
-    }
+    public String getEstadoSalud() { return estadoSalud; }
+    public void setEstadoSalud(String estadoSalud) { this.estadoSalud = estadoSalud; }
 
-    public void setUltimaInspeccion(Date ultimaInspeccion) {
-        this.ultimaInspeccion = ultimaInspeccion;
-    }
+    public Date getUltimaInspeccion() { return ultimaInspeccion; }
+    public void setUltimaInspeccion(Date ultimaInspeccion) { this.ultimaInspeccion = ultimaInspeccion; }
 
-    public String getNotasInspeccion() {
-        return notasInspeccion;
-    }
-
-    public void setNotasInspeccion(String notasInspeccion) {
-        this.notasInspeccion = notasInspeccion;
-    }
+    public String getNotasInspeccion() { return notasInspeccion; }
+    public void setNotasInspeccion(String notasInspeccion) { this.notasInspeccion = notasInspeccion; }
 
     @Override
     public String toString() {
         return "Colmena{" +
-               "id='" + id + '\'' +
-               ", ubicacion='" + ubicacion + '\'' +
-               ", fechaCreacion=" + fechaCreacion +
-               ", razaAbejas='" + razaAbejas + '\'' +
-               ", estadoSalud='" + estadoSalud + '\'' +
-               ", numeroMarcos=" + numeroMarcos +
-               ", ultimaInspeccion=" + ultimaInspeccion +
-               ", notasInspeccion='" + notasInspeccion + '\'' +
-               '}';
+                "id='" + id + '\'' +
+                ", ubicacion='" + ubicacion + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", cantidadAbejas=" + cantidadAbejas +
+                ", fechaCreacion=" + fechaCreacion +
+                ", estadoSalud='" + estadoSalud + '\'' +
+                ", produccionMiel=" + produccionMiel +
+                ", ultimaInspeccion=" + ultimaInspeccion +
+                ", notasInspeccion='" + notasInspeccion + '\'' +
+                '}';
     }
 }
-
-
-public class GestorApicultores {
-    private ArrayList<Apicultor> apicultores;
-
-    public GestorApicultores() {
-        apicultores = new ArrayList<>();
-    }
-
-    public void agregarApicultor(Apicultor apicultor) {
-        apicultores.add(apicultor);
-    }
-
-    public void mostrarApicultores() {
-        for (Apicultor a : apicultores) {
-            System.out.println(a);
-        }
-    }
-}
-
-
