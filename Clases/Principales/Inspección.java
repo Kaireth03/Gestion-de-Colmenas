@@ -2,7 +2,6 @@ package Clases.Principales;
 
 import java.io.Serializable;
 import java.util.*;
-import static Colmena.Utilidades.*; // Asegúrate que esta utilidad esté accesible
 
 public class Inspección implements Serializable {
     public Date fecha;
@@ -17,7 +16,7 @@ public class Inspección implements Serializable {
 
     public static void inspeccionarColmenas(List<Colmena> colmenas) {
         if (colmenas.isEmpty()) {
-            printWithDelay("⚠️ No hay colmenas para inspeccionar.\n", 50);
+            system.out.println(" No hay colmenas para inspeccionar.\n", 50);
             return;
         }
 
@@ -26,7 +25,7 @@ public class Inspección implements Serializable {
         for (Colmena colmena : colmenas) {
             new Thread(() -> {
                 try {
-                    printWithDelay("🔍 Inspeccionando colmena " + colmena.id + "...\n", 40);
+                    system.out.println(" Inspeccionando colmena " + colmena.id + "...\n", 40);
                     Thread.sleep(new Random().nextInt(800) + 400);
 
                     int puntos = 0;
@@ -44,23 +43,23 @@ public class Inspección implements Serializable {
                     };
 
                     String acciones = switch (resultado) {
-                        case "✅ Buen estado" -> "Revisar en 6 meses";
-                        case "⚠️ Revisar pronto" -> "Revisar en 1 mes";
+                        case " Buen estado" -> "Revisar en 6 meses";
+                        case " Revisar pronto" -> "Revisar en 1 mes";
                         default -> "Intervención inmediata";
                     };
 
                     colmena.agregarInspeccion(new Inspección(resultado, acciones));
-                    reportes.add("🧾 Colmena " + colmena.id + ": " + resultado);
+                    reportes.add(" Colmena " + colmena.id + ": " + resultado);
 
                 } catch (InterruptedException e) {
-                    reportes.add("❌ Error inspeccionando colmena " + colmena.id);
+                    reportes.add(" Error inspeccionando colmena " + colmena.id);
                 }
             }).start();
         }
 
         try { Thread.sleep(2500); } catch (InterruptedException ignored) {}
 
-        reportes.forEach(r -> printWithDelay(r + "\n", 30));
+        reportes.forEach(r -> system.out.println(r + "\n", 30));
         animacionAbejas();
     }
 }
