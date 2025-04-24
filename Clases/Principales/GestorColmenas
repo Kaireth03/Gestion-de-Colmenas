@@ -1,91 +1,122 @@
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-class GestionColmenas {
-    private List<Colmena> colmenas;
+public class GestionColmenas {
+    private static List<Colmena> colmenas = new ArrayList<>();
+    private static DatosApicola datosApicola = new DatosApicola();
 
-    public GestionColmenas() {
-        this.colmenas = new ArrayList<>();
-    }
+    public static void registrarColmena() {
+        System.out.println("\n🐝 REGISTRO DE NUEVA COLMENA");
 
-    public void agregarColmena(String id, String ubicacion, String razaAbejas) {
-        Colmena nuevaColmena = new Colmena(id, ubicacion, razaAbejas);
-        colmenas.add(nuevaColmena);
-        System.out.println("Colmena con ID " + id + " agregada.");
-    }
-
-    public Colmena buscarColmena(String id) {
-        for (Colmena colmena : colmenas) {
-            if (colmena.getId().equals(id)) {
-                return colmena;
+        try {
+            String id = Utils.solicitarCampo("Ingrese ID de la colmena: ");
+            if (Utils.idExiste(datosApicola.obtenerColmenas(), id)) {
+                System.out.println("El ID " + id + " ya está registrado.\n");
+                return;
             }
+
+            String ubicacion = Utils.solicitarCampo("Ingrese ubicación de la colmena: ");
+            String estadoSalud = solicitarEstadoSalud();
+            String tipo = Utils.solicitarCampo("Ingrese tipo de colmena (Ej: Langstroth, Warre, Top-Bar): ");
+            int cantidadAbejas = solicitarCantidadAbejas();
+            float produccionMiel = solicitarProduccionMiel();
+
+            Colmena nueva = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
+            datosApicola.agregarColmena(nueva);
+            colmenas.add(nueva);
+
+            System.out.println("✅ Colmena registrada correctamente.");
+        } catch (Exception e) {
+            System.out.println("❌ Error al registrar la colmena: " + e.getMessage());
         }
-        return null;
     }
 
-    public void actualizarUbicacion(String id, String nuevaUbicacion) {
+    public static void actualizarUbicacion(String id, String nuevaUbicacion) {
         Colmena colmena = buscarColmena(id);
         if (colmena != null) {
             colmena.setUbicacion(nuevaUbicacion);
-            System.out.println("Ubicación de la colmena con ID " + id + " actualizada a " + nuevaUbicacion + ".");
-        } else {
-            System.out.println("No se encontró la colmena con ID " + id + ".");
-        }
+            System.out.println("📍 Ubicación actualizada a " + nuevaUbicacion);
+        } else mostrarNoEncontrada(id);
     }
 
-    public void actualizarRaza(String id, String nuevaRaza) {
-        Colmena colmena = buscarColmena(id);
-        if (colmena != null) {
-            colmena.setRazaAbejas(nuevaRaza);
-            System.out.println("Raza de la colmena con ID " + id + " actualizada a " + nuevaRaza + ".");
-        } else {
-            System.out.println("No se encontró la colmena con ID " + id + ".");
-        }
-    }
-
-    public void actualizarEstadoSalud(String id, String nuevoEstado) {
+    public static void actualizarEstadoSalud(String id, String nuevoEstado) {
         Colmena colmena = buscarColmena(id);
         if (colmena != null) {
             colmena.setEstadoSalud(nuevoEstado);
-            System.out.println("Estado de salud de la colmena con ID " + id + " actualizado a " + nuevoEstado + ".");
-        } else {
-            System.out.println("No se encontró la colmena con ID " + id + ".");
-        }
+            System.out.println("❤️ Estado de salud actualizado a " + nuevoEstado);
+        } else mostrarNoEncontrada(id);
     }
 
-    public void actualizarNumeroMarcos(String id, int nuevoNumeroMarcos) {
-        Colmena colmena = buscarColmena(id);
-        if (colmena != null) {
-            colmena.setNumeroMarcos(nuevoNumeroMarcos);
-            System.out.println("Número de marcos de la colmena con ID " + id + " actualizado a " + nuevoNumeroMarcos + ".");
-        } else {
-            System.out.println("No se encontró la colmena con ID " + id + ".");
-        }
-    }
-
-    public void registrarInspeccion(String id, String notas) {
+    public static void registrarInspeccion(String id, String notas) {
         Colmena colmena = buscarColmena(id);
         if (colmena != null) {
             colmena.setUltimaInspeccion(new Date());
             colmena.setNotasInspeccion(notas);
-            System.out.println("Inspección registrada para la colmena con ID " + id + " el " + colmena.getUltimaInspeccion() + ". Notas: " + notas);
-            // Aquí podrías actualizar el estado de salud basado en las notas de la inspección si fuera necesario.
-        } else {
-            System.out.println("No se encontró la colmena con ID " + id + ".");
-        }
+            System.out.println("🕵️ Inspección registrada para la colmena " + id + " el " + colmena.getUltimaInspeccion() + ". Notas: " + notas);
+        } else mostrarNoEncontrada(id);
     }
 
-    public void mostrarTodasColmenas() {
+    public static void mostrarTodasColmenas() {
         if (colmenas.isEmpty()) {
-            System.out.println("No hay colmenas registradas.");
+            System.out.println("🚫 No hay colmenas registradas.");
         } else {
-            System.out.println("Listado de colmenas:");
+            System.out.println("📋 Listado de colmenas:");
             for (Colmena colmena : colmenas) {
                 System.out.println(colmena);
             }
         }
     }
 
-    // Otros métodos de gestión podrían ir aquí (eliminar colmena, etc.)
+    private static Colmena buscarColmena(String id) {
+        for (Colmena c : colmenas) {
+            if (c.getId().equalsIgnoreCase(id)) return c;
+        }
+        return null;
+    }
+
+    private static void mostrarNoEncontrada(String id) {
+        System.out.println("❌ No se encontró la colmena con ID " + id);
+    }
+
+    private static String solicitarEstadoSalud() {
+        String mensaje = """
+            Estado de Salud:
+            ├─ En plenitud
+            ├─ Zumbido estable
+            └─ Colmena en riesgo
+            👉 Ingresa una opción:""";
+        String input = Utils.solicitarCampo(mensaje);
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
+
+    private static byte solicitarCantidadAbejas() {
+        while (true) {
+            try {
+                String input = Utils.solicitarCampo("Cantidad de abejas (0–25): ");
+                byte cantidad = Byte.parseByte(input);
+                if (cantidad < 0 || cantidad > 25) {
+                    System.out.println("❌ Cantidad fuera de rango.");
+                    continue;
+                }
+                return cantidad;
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Debe ser un número.");
+            }
+        }
+    }
+
+    private static float solicitarProduccionMiel() {
+        while (true) {
+            try {
+                String input = Utils.solicitarCampo("Producción estimada de miel (kg): ");
+                float produccion = Float.parseFloat(input);
+                if (produccion < 0) {
+                    System.out.println("❌ La producción no puede ser negativa.");
+                    continue;
+                }
+                return produccion;
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Usa punto como separador decimal.");
+            }
+        }
+    }
 }
