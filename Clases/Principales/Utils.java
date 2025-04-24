@@ -33,8 +33,6 @@ public class Utils {
     public static boolean idExiste(List<Colmena> colmenas, String id) {
         // Se usa un stream para recorrer todas las colmenas y comparar cada ID con el que se quiere registrar.
         // Se devuelve 'true' apenas se encuentra una coincidencia, lo que lo hace eficiente.
-        return colmenas.stream().anyMatch(c -> c.id.equals(id));
+        return colmenas.stream().anyMatch(c -> c.getId().equals(id));
     }
-
 }
-
