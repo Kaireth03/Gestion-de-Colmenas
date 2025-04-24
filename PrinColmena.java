@@ -192,7 +192,7 @@ public class GestorColmenas {
 
 
     private static byte solicitarCantidadAbejas() {
-    while (true) {
+        while (true) {
             try {
                 // Se solicita al usuario que indique la cantidad de abejas en la colmena.
                 String input = Utils.solicitarCampo("Cantidad de abejas (0–25): ");
