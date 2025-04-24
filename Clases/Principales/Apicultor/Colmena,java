@@ -1,0 +1,21 @@
+package Colmena;
+
+import java.util.ArrayList;
+
+public class GestorApicultores {
+    private ArrayList<Apicultor> apicultores;
+
+    public GestorApicultores() {
+        apicultores = new ArrayList<>();
+    }
+
+    public void agregarApicultor(Apicultor apicultor) {
+        apicultores.add(apicultor);
+    }
+
+    public void mostrarApicultores() {
+        for (Apicultor a : apicultores) {
+            System.out.println(a);
+        }
+    }
+}
