@@ -29,8 +29,8 @@ public class PrinColmena {
     public static void mostrarMenu() {
         System.out.println("""
         ╔═════════════════════════════════════════════════════════════╗
-            🌼🐝  BIENVENIDO AL SISTEMA DE GESTIÓN APÍCOLA  🐝🌼     
-                     ¡Administra & Registra tus colmenas! 🍯         
+            🌼🐝  BIENVENIDO AL SISTEMA DE GESTIÓN APÍCOLA  🐝🌼
+                     ¡Administra & Registra tus colmenas! 🍯
         ╚═════════════════════════════════════════════════════════════╝
        
        1️👥  Registrar nueva Colmena
@@ -41,27 +41,27 @@ public class PrinColmena {
        6️🧑🏻‍🌾  Asignar Apicultor a Colmena
        7️📩  Editar Información Existente
        8️🔚  Salir del Sistema
-        """);
+       """);
         System.out.print("📜 Indica tu próximo movimiento en esta jornada apícola. Elige una opción del 1 al 8: ");
     }
 
     // Función que maneja la opción del menú
     public static boolean manejarOpcion(String opcion) {
         switch (opcion) {
-            case "1" -> 
-                GestorColmenas.registrarColmena();
-            case "2" -> 
-                GestorColmenas.registrarApicultor();
+            case "1" ->
+                    GestorColmenas.registrarColmena();
+            case "2" ->
+                    GestorColmenas.registrarApicultor();
             case "3" ->
-                GestorColmenas.asignarAbejaReina();
+                    GestorColmenas.asignarAbejaReina();
             case "4" ->
-                GestorColmenas.realizarInspeccion();
+                    GestorColmenas.realizarInspeccion();
             case "5" ->
-                GestorColmenas.mostrarInformacion();
+                    GestorColmenas.mostrarInformacion();
             case "6" ->
-                GestorColmenas.asignarApicultorAColmena();
+                    GestorColmenas.asignarApicultorAColmena();
             case "7" ->
-                GestorColmenas.editarInformacion();
+                    GestorColmenas.editarInformacion();
             case "8" -> {
                 // TODO: Confirmar salida, guardar datos si es necesario
                 return false;
@@ -86,31 +86,30 @@ public class GestorColmenas {
                 return; // Se detiene el proceso si el ID ya está en uso.
             }
 
-        // Se pide la ubicación porque es fundamental saber dónde se encuentra la colmena físicamente.
+            // Se pide la ubicación porque es fundamental saber dónde se encuentra la colmena físicamente.
             String ubicacion = Utils.solicitarCampo("Ingrese ubicación de la colmena: ");
 
-        // El estado de salud es necesario para monitorear el bienestar de la colmena desde su registro.
+            // El estado de salud es necesario para monitorear el bienestar de la colmena desde su registro.
             String estadoSalud = solicitarEstadoSalud();
 
-        // El tipo define la estructura de la colmena, lo cual puede afectar su mantenimiento y producción.
+            // El tipo define la estructura de la colmena, lo cual puede afectar su mantenimiento y producción.
             String tipo = Utils.solicitarCampo("Ingrese tipo de colmena (Ej: Langstroth, Warre, Top-Bar): ");
 
-        // Se solicita la cantidad de abejas como dato básico sobre la población de la colmena.
+            // Se solicita la cantidad de abejas como dato básico sobre la población de la colmena.
             int cantidadAbejas = solicitarCantidadAbejas();
 
-        // Se solicita la produccion de miel en la colmena
+            // Se solicita la produccion de miel en la colmena
             float produccionMiel = solicitarProduccionMiel();
 
-        // Actualmente el constructor de Colmena no recibe todos los datos necesarios.
-        // Este código debe actualizarse para reflejar los nuevos atributos añadidos a la clase Colmena.
-            Colmena nuevaColmena = new Colmena(id, ubicacion, tipo); // ← Esto debe actualizarse.
+            // Crea una nueva colmena
+            Colmena nuevaColmena = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
             colmenas.add(nuevaColmena); // Se agrega la nueva colmena a la lista global.
 
             System.out.println("✅ Colmena registrada correctamente.");
         } catch (Exception e) {
-        // Captura cualquier error inesperado durante el proceso de registro.
-        System.out.println("❌ Error al registrar la colmena: " + e.getMessage());
-        }    
+            // Captura cualquier error inesperado durante el proceso de registro.
+            System.out.println("❌ Error al registrar la colmena: " + e.getMessage());
+        }
     }
 
 
@@ -180,14 +179,13 @@ public class GestorColmenas {
             ├─ En plenitud
             ├─ Zumbido estable
             └─ Colmena en riesgo
-            👉 Ingresa una opción: """;
+            👉 Ingresa una opción:""";
 
         // Se valida que el input esté entre las opciones permitidas para mantener la coherencia de datos.
-        String input = Utils.solicitarCampo("En plenitud|Zumbido estable|Colmena en riesgo");
+        String input = Utils.solicitarCampo(mensaje);
 
         // Se normaliza el texto para que comience con mayúscula y continúe en minúscula.
-        String estadoSalud = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
-        return estadoSalud;
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
     }
 
 
@@ -214,7 +212,7 @@ public class GestorColmenas {
             }
         }
     }
-    
+
     private static float solicitarProduccionMiel() {
         while (true) {
             try {
