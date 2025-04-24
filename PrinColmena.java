@@ -27,13 +27,22 @@ public class PrinColmena {
 
     // Función que muestra el menú
     public static void mostrarMenu() {
-        // TODO: Mostrar el menu (para los que van hacer menu)
         System.out.println("""
-        // hagan el menu aca,
-        pude ultilizar multiples lineas
-        //
+        ╔═════════════════════════════════════════════════════════════╗
+            🌼🐝  BIENVENIDO AL SISTEMA DE GESTIÓN APÍCOLA  🐝🌼     
+                     ¡Administra & Registra tus colmenas! 🍯         
+        ╚═════════════════════════════════════════════════════════════╝
+       
+       1️👥  Registrar nueva Colmena
+       2️‍🆕  Registrar nuevo Apicultor
+       3️👑  Asignar Abeja Reina a una Colmena
+       4️👀  Realizar Inspección a Colmena
+       5️📝  Mostrar Información Registrada
+       6️🧑🏻‍🌾  Asignar Apicultor a Colmena
+       7️📩  Editar Información Existente
+       8️🔚  Salir del Sistema
         """);
-        System.out.print("Selecciona una opción: "); // cambien
+        System.out.print("📜 Indica tu próximo movimiento en esta jornada apícola. Elige una opción del 1 al 8: ");
     }
 
     // Función que maneja la opción del menú
@@ -65,7 +74,7 @@ public class PrinColmena {
 
 public class GestorColmenas {
     public static void registrarColmena() {
-        System.out.println("Registro de nueva colmena");
+        System.out.println("\n🐝 REGISTRO DE NUEVA COLMENA");
 
         try {
             String id = Utils.solicitarCampo("Ingrese ID de la colmena: ");
