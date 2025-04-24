@@ -1,6 +1,6 @@
-package Clases.Util;
+package Clases.Principales;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Utils {
     private static final Scanner scanner = new Scanner(System.in);
@@ -30,6 +30,5 @@ public class Utils {
     public static boolean idExiste(List<Colmena> colmenas, String id) {
         return colmenas.stream().anyMatch(c -> c.id.equals(id));
     }
-
 }
 
