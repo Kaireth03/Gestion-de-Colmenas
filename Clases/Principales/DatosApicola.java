@@ -1,10 +1,7 @@
-package Colmena;
+package Clases.Principales;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 public class DatosApicola implements Serializable {
     // Lista de colmenas registradas en el sistema.
