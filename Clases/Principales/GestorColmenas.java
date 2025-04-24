@@ -1,15 +1,17 @@
+package Clases.Principales;
+
 import java.util.*;
 
-public class GestionColmenas {
-    private static List<Colmena> colmenas = new ArrayList<>();
-    private static DatosApicola datosApicola = new DatosApicola();
+public class GestorColmenas {
+    private static final List<Colmena> colmenas = new ArrayList<>();
+    private static final DatosApicola datosApicola = new DatosApicola();
 
-    public static void registrarColmena() {
+    public static void registrarColmena(DatosApicola datosApicola) {
         System.out.println("\n🐝 REGISTRO DE NUEVA COLMENA");
 
         try {
             String id = Utils.solicitarCampo("Ingrese ID de la colmena: ");
-            if (Utils.idExiste(datosApicola.obtenerColmenas(), id)) {
+            if (Utils.idExiste(GestorColmenas.datosApicola.obtenerColmenas(), id)) {
                 System.out.println("El ID " + id + " ya está registrado.\n");
                 return;
             }
@@ -17,11 +19,11 @@ public class GestionColmenas {
             String ubicacion = Utils.solicitarCampo("Ingrese ubicación de la colmena: ");
             String estadoSalud = solicitarEstadoSalud();
             String tipo = Utils.solicitarCampo("Ingrese tipo de colmena (Ej: Langstroth, Warre, Top-Bar): ");
-            int cantidadAbejas = solicitarCantidadAbejas();
+            byte cantidadAbejas = solicitarCantidadAbejas();
             float produccionMiel = solicitarProduccionMiel();
 
             Colmena nueva = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
-            datosApicola.agregarColmena(nueva);
+            GestorColmenas.datosApicola.agregarColmena(nueva);
             colmenas.add(nueva);
 
             System.out.println("✅ Colmena registrada correctamente.");
