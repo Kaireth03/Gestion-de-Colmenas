@@ -50,12 +50,12 @@ public class PrinColmena {
    public static boolean manejarOpcion(String opcion) {
         switch (opcion) {
             case "1" -> GestorColmenas.registrarColmena(datosApicola);
-            case "2" -> GestorColmenas.registrarApicultor(datosApicola);
-            case "3" -> GestorColmenas.asignarAbejaReina(datosApicola);
-            case "4" -> GestorColmenas.realizarInspeccion(datosApicola);
-            case "5" -> GestorColmenas.mostrarInformacion(datosApicola);
-            case "6" -> GestorColmenas.asignarApicultorAColmena(datosApicola);
-            case "7" -> GestorColmenas.editarInformacion(datosApicola);
+            case "2" -> GestorColmenas.registrarApicultor();
+            case "3" -> GestorColmenas.asignarAbejaReina();
+            case "4" -> GestorColmenas.realizarInspeccion();
+            case "5" -> GestorColmenas.mostrarInformacion();
+            case "6" -> GestorColmenas.asignarApicultorAColmena();
+            case "7" -> GestorColmenas.editarInformacion();
             case "8" -> {
             // Guardar los datos al salir
             LeerJson.Guardar(datosApicola); // Guardar la información
