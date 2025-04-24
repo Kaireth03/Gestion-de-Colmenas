@@ -1,4 +1,4 @@
-package Colmena;
+package Clases.Principales;
 
 import java.io.Serializable;
 
