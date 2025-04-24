@@ -8,6 +8,7 @@ import Clases.LeerJson;
 public class PrinColmena {
     static Scanner scanner = new Scanner(System.in);
     static ArrayList<Colmena> Colmenas = new ArrayList<>();
+    static DatosApicola datosApicola = new DatosApicola();
 
     public static void main(String[] args) {
         try {
@@ -46,71 +47,51 @@ public class PrinColmena {
     }
 
     // Función que maneja la opción del menú
-    public static boolean manejarOpcion(String opcion) {
+   public static boolean manejarOpcion(String opcion) {
         switch (opcion) {
-            case "1" ->
-                    GestorColmenas.registrarColmena();
-            case "2" ->
-                    GestorColmenas.registrarApicultor();
-            case "3" ->
-                    GestorColmenas.asignarAbejaReina();
-            case "4" ->
-                    GestorColmenas.realizarInspeccion();
-            case "5" ->
-                    GestorColmenas.mostrarInformacion();
-            case "6" ->
-                    GestorColmenas.asignarApicultorAColmena();
-            case "7" ->
-                    GestorColmenas.editarInformacion();
+            case "1" -> GestorColmenas.registrarColmena(datosApicola);
+            case "2" -> GestorColmenas.registrarApicultor(datosApicola);
+            case "3" -> GestorColmenas.asignarAbejaReina(datosApicola);
+            case "4" -> GestorColmenas.realizarInspeccion(datosApicola);
+            case "5" -> GestorColmenas.mostrarInformacion(datosApicola);
+            case "6" -> GestorColmenas.asignarApicultorAColmena(datosApicola);
+            case "7" -> GestorColmenas.editarInformacion(datosApicola);
             case "8" -> {
-                // TODO: Confirmar salida, guardar datos si es necesario
-                return false;
-            }
-            default -> System.out.println("⚠️ Opción no válida. Intenta nuevamente."); // los de menu, cambien eso
+            // Guardar los datos al salir
+            LeerJson.Guardar(datosApicola); // Guardar la información
+            return false; // Finalizar el ciclo y salir del programa
         }
-        return true;
+        default -> System.out.println("⚠️ Opción no válida. Intenta nuevamente.");
+    }
+    return true;
+}
+}
+public class GestorColmenas {
+   public static void registrarColmena(DatosApicola datosApicola) {
+    System.out.println("\n🐝 REGISTRO DE NUEVA COLMENA");
+
+    try {
+        String id = Utils.solicitarCampo("Ingrese ID de la colmena: ");
+
+        if (Utils.idExiste(datosApicola.obtenerColmenas(), id)) {
+            System.out.println("El ID " + id + " ya está registrado.\n");
+            return;
+        }
+
+        String ubicacion = Utils.solicitarCampo("Ingrese ubicación de la colmena: ");
+        String estadoSalud = solicitarEstadoSalud();
+        String tipo = Utils.solicitarCampo("Ingrese tipo de colmena (Ej: Langstroth, Warre, Top-Bar): ");
+        int cantidadAbejas = solicitarCantidadAbejas();
+        float produccionMiel = solicitarProduccionMiel();
+
+        Colmena nuevaColmena = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
+        datosApicola.agregarColmena(nuevaColmena); // Usamos datosApicola para agregar la colmena
+
+        System.out.println("✅ Colmena registrada correctamente.");
+    } catch (Exception e) {
+        System.out.println("❌ Error al registrar la colmena: " + e.getMessage());
     }
 }
-
-public class GestorColmenas {
-    public static void registrarColmena() {
-        System.out.println("\n🐝 REGISTRO DE NUEVA COLMENA");
-
-        try {
-            // Se solicita el ID para identificar de forma única la colmena.
-            String id = Utils.solicitarCampo("Ingrese ID de la colmena: ");
-
-            // Verifica si ya existe una colmena con ese ID para evitar duplicados.
-            if (Utils.idExiste(colmenas, id)) {
-                System.out.println("El ID " + id + " ya está registrado.\n");
-                return; // Se detiene el proceso si el ID ya está en uso.
-            }
-
-            // Se pide la ubicación porque es fundamental saber dónde se encuentra la colmena físicamente.
-            String ubicacion = Utils.solicitarCampo("Ingrese ubicación de la colmena: ");
-
-            // El estado de salud es necesario para monitorear el bienestar de la colmena desde su registro.
-            String estadoSalud = solicitarEstadoSalud();
-
-            // El tipo define la estructura de la colmena, lo cual puede afectar su mantenimiento y producción.
-            String tipo = Utils.solicitarCampo("Ingrese tipo de colmena (Ej: Langstroth, Warre, Top-Bar): ");
-
-            // Se solicita la cantidad de abejas como dato básico sobre la población de la colmena.
-            int cantidadAbejas = solicitarCantidadAbejas();
-
-            // Se solicita la produccion de miel en la colmena
-            float produccionMiel = solicitarProduccionMiel();
-
-            // Crea una nueva colmena
-            Colmena nuevaColmena = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
-            colmenas.add(nuevaColmena); // Se agrega la nueva colmena a la lista global.
-
-            System.out.println("✅ Colmena registrada correctamente.");
-        } catch (Exception e) {
-            // Captura cualquier error inesperado durante el proceso de registro.
-            System.out.println("❌ Error al registrar la colmena: " + e.getMessage());
-        }
-    }
 
 
     // Función para registrar un nuevo apicultor
