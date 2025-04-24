@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Utils {
-    private static final Scanner scanner = new Scanner(System.in)
+    private static final Scanner scanner = new Scanner(System.in);
     public static String solicitarCampo(String mensaje) {
         System.out.print(mensaje);
         String input = scanner.nextLine().trim();
