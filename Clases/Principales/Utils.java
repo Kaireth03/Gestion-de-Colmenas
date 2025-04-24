@@ -26,5 +26,10 @@ public class Utils {
 
         return input;
     }
+
+    public static boolean idExiste(List<Colmena> colmenas, String id) {
+        return colmenas.stream().anyMatch(c -> c.id.equals(id));
+}
+
 }
 
