@@ -12,7 +12,7 @@ public class Utils {
      * @return El input válido del usuario.
      * @throws IllegalArgumentException si el input no es válido.
      */
-    public static String getValidInput(String mensaje, String regex) {
+    public static String solicitarCampo(String mensaje, String regex) {
         System.out.print(mensaje);
         String input = scanner.nextLine().trim();
 
