@@ -60,39 +60,38 @@ public class PrinColmena {
             // Guardar los datos al salir
             LeerJson.Guardar(datosApicola); // Guardar la información
             return false; // Finalizar el ciclo y salir del programa
+            }
+            default -> System.out.println("⚠️ Opción no válida. Intenta nuevamente.");
         }
-        default -> System.out.println("⚠️ Opción no válida. Intenta nuevamente.");
+        return true;
     }
-    return true;
-}
-}
+
 public class GestorColmenas {
    public static void registrarColmena(DatosApicola datosApicola) {
-    System.out.println("\n🐝 REGISTRO DE NUEVA COLMENA");
-
-    try {
-        String id = Utils.solicitarCampo("Ingrese ID de la colmena: ");
-
-        if (Utils.idExiste(datosApicola.obtenerColmenas(), id)) {
-            System.out.println("El ID " + id + " ya está registrado.\n");
-            return;
+        System.out.println("\n🐝 REGISTRO DE NUEVA COLMENA");
+    
+        try {
+            String id = Utils.solicitarCampo("Ingrese ID de la colmena: ");
+    
+            if (Utils.idExiste(datosApicola.obtenerColmenas(), id)) {
+                System.out.println("El ID " + id + " ya está registrado.\n");
+                return;
+            }
+    
+            String ubicacion = Utils.solicitarCampo("Ingrese ubicación de la colmena: ");
+            String estadoSalud = solicitarEstadoSalud();
+            String tipo = Utils.solicitarCampo("Ingrese tipo de colmena (Ej: Langstroth, Warre, Top-Bar): ");
+            int cantidadAbejas = solicitarCantidadAbejas();
+            float produccionMiel = solicitarProduccionMiel();
+    
+            Colmena nuevaColmena = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
+            datosApicola.agregarColmena(nuevaColmena); // Usamos datosApicola para agregar la colmena
+    
+            System.out.println("✅ Colmena registrada correctamente.");
+        } catch (Exception e) {
+            System.out.println("❌ Error al registrar la colmena: " + e.getMessage());
         }
-
-        String ubicacion = Utils.solicitarCampo("Ingrese ubicación de la colmena: ");
-        String estadoSalud = solicitarEstadoSalud();
-        String tipo = Utils.solicitarCampo("Ingrese tipo de colmena (Ej: Langstroth, Warre, Top-Bar): ");
-        int cantidadAbejas = solicitarCantidadAbejas();
-        float produccionMiel = solicitarProduccionMiel();
-
-        Colmena nuevaColmena = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
-        datosApicola.agregarColmena(nuevaColmena); // Usamos datosApicola para agregar la colmena
-
-        System.out.println("✅ Colmena registrada correctamente.");
-    } catch (Exception e) {
-        System.out.println("❌ Error al registrar la colmena: " + e.getMessage());
     }
-}
-
 
     // Función para registrar un nuevo apicultor
     public static void registrarApicultor() {
