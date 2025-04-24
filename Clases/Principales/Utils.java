@@ -5,10 +5,9 @@ import java.util.*;
 public class Utils {
     private static final Scanner scanner = new Scanner(System.in);
     /**
-     * Solicita un campo que cumpla con un patrón regex específico.
+     * Solicita un campo que cumpla con un patrón específico.
      * 
      * @param mensaje Mensaje que se mostrará al usuario.
-     * @param regex Expresión regular que debe cumplir el input.
      * @return El input válido del usuario.
      * @throws IllegalArgumentException si el input no es válido.
      */
@@ -22,7 +21,8 @@ public class Utils {
         
         return input;
     }
-
+    
+    // Hace una verificacion si el ID ya existe
     public static boolean idExiste(List<Colmena> colmenas, String id) {
         return colmenas.stream().anyMatch(c -> c.id.equals(id));
     }
