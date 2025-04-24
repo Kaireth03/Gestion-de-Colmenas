@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class DatosApicola implements Serializable {
     // Lista de colmenas registradas en el sistema.
