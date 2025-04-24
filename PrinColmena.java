@@ -183,7 +183,7 @@ public class GestorColmenas {
             👉 Ingresa una opción: """;
 
         // Se valida que el input esté entre las opciones permitidas para mantener la coherencia de datos.
-        String input = Utils.solicitarCampo(mensaje, "En plenitud|Zumbido estable|Colmena en riesgo");
+        String input = Utils.solicitarCampo("En plenitud|Zumbido estable|Colmena en riesgo");
 
         // Se normaliza el texto para que comience con mayúscula y continúe en minúscula.
         String estadoSalud = input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
