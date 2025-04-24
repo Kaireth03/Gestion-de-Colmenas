@@ -44,28 +44,12 @@ class Colmena {
         return fechaCreacion;
     }
 
-    public String getRazaAbejas() {
-        return razaAbejas;
-    }
-
-    public void setRazaAbejas(String razaAbejas) {
-        this.razaAbejas = razaAbejas;
-    }
-
     public String getEstadoSalud() {
         return estadoSalud;
     }
 
     public void setEstadoSalud(String estadoSalud) {
         this.estadoSalud = estadoSalud;
-    }
-
-    public int getNumeroMarcos() {
-        return numeroMarcos;
-    }
-
-    public void setNumeroMarcos(int numeroMarcos) {
-        this.numeroMarcos = numeroMarcos;
     }
 
     public Date getUltimaInspeccion() {
