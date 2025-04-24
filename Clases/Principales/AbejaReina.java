@@ -1,19 +1,21 @@
 package Clases.Principales;
 
-public class AbejaReina package Clases.Principales;
-
 public class AbejaReina {
-    private String estadoSalud;
-    private int edad;
-    private double productividad;
 
+    // Atributos privados: solo accesibles desde dentro de la clase
+    private String estadoSalud;      
+    private int edad;                
+    private double productividad;    
+
+    // Constructor de la clase: se ejecuta al crear una nueva AbejaReina
     public AbejaReina(String estadoSalud, int edad, double productividad) {
-        this.estadoSalud = estadoSalud;
-        this.edad = edad;
-        this.productividad = productividad;
+        this.estadoSalud = estadoSalud;         
+        this.edad = edad;                       
+        this.productividad = productividad;     
     }
-
-    public String getInfo() {
+    
+    // Devuelve toda la información de la abeja reina
+    public String obtenerEstado() {
         return String.format("""
             👑 Abeja Reina:
             🩺 Salud: %s
