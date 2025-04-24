@@ -19,7 +19,7 @@ public class PrinColmena {
                 continuar = manejarOpcion(scanner.nextLine());
             }
 
-        // LeerJson.Guardar(Colmenas);
+            // LeerJson.Guardar(Colmenas);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -39,27 +39,20 @@ public class PrinColmena {
     // Función que maneja la opción del menú
     public static boolean manejarOpcion(String opcion) {
         switch (opcion) {
-            case "1" -> {
-                // TODO: Llamar a función para registrar colmena
-            }
-            case "2" -> {
-                // TODO: Llamar a función para registrar apicultor
-            }
-            case "3" -> {
-                // TODO: Llamar a función para asignar abeja reina
-            }
-            case "4" -> {
-                // TODO: Llamar a función para realizar inspección
-            }
-            case "5" -> {
-                // TODO: Llamar a función para mostrar información
-            }
-            case "6" -> {
-                // TODO: Llamar a función para asignar apicultor a colmena
-            }
-            case "7" -> {
-                // TODO: Llamar a función para editar información
-            }
+            case "1" -> 
+                GestorColmenas.registrarColmena();
+            case "2" -> 
+                GestorColmenas.registrarApicultor();
+            case "3" ->
+                GestorColmenas.asignarAbejaReina();
+            case "4" ->
+                GestorColmenas.realizarInspeccion();
+            case "5" ->
+                GestorColmenas.mostrarInformacion();
+            case "6" ->
+                GestorColmenas.asignarApicultorAColmena();
+            case "7" ->
+                GestorColmenas.editarInformacion();
             case "8" -> {
                 // TODO: Confirmar salida, guardar datos si es necesario
                 return false;
@@ -68,40 +61,16 @@ public class PrinColmena {
         }
         return true;
     }
-    // Función para registrar una nueva colmena
-    public static void registrarColmena() {
-  import java.util.ArrayList;
-import java.util.Scanner;
+}
 
 public class GestorColmenas {
-
     public static void registrarColmena() {
         System.out.println("Registro de nueva colmena");
 
         try {
-            System.out.print("Ingrese ID de la colmena: ");
-            String id = scanner.nextLine().trim();
-
-            if (id.isEmpty()) {
-                System.out.println("El ID no puede estar vacío.");
-                return;
-            }
-
-            System.out.print("Ingrese ubicación de la colmena: ");
-            String ubicacion = scanner.nextLine().trim();
-
-            if (ubicacion.isEmpty()) {
-                System.out.println("La ubicación no puede estar vacía.");
-                return;
-            }
-
-            System.out.print("Ingrese tipo de colmena (Ej: Langstroth, Warre, Top-Bar): ");
-            String tipo = scanner.nextLine().trim();
-
-            if (tipo.isEmpty()) {
-                System.out.println("El tipo no puede estar vacío.");
-                return;
-            }
+            String id = Utils.solicitarCampo("Ingrese ID de la colmena: ");
+            String ubicacion = Utils.solicitarCampo("Ingrese ubicación de la colmena: ");
+            String tipo = Utils.solicitarCampo("Ingrese tipo de colmena (Ej: Langstroth, Warre, Top-Bar): ");
 
             Colmena nuevaColmena = new Colmena(id, ubicacion, tipo);
             colmenas.add(nuevaColmena);
@@ -110,9 +79,6 @@ public class GestorColmenas {
         } catch (Exception e) {
             System.out.println("❌ Error al registrar la colmena: " + e.getMessage());
         }
-    }
-}
-
     }
 
     // Función para registrar un nuevo apicultor
