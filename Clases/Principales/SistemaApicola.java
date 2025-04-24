@@ -7,12 +7,29 @@ public class SistemaApicola {
     private static DatosApicola datosApicola = new DatosApicola();
     
     public static void registrarApicultor() {
-        // TODO: Pedir datos del apicultor (nombre, edad, experiencia, etc.)
-        // TODO: Validar los datos
-        // TODO: Crear objeto Apicultor
-        // TODO: Agregarlo a la lista correspondiente
-        // TODO: Confirmar el registro
-    }
+        System.out.println("REGISTRO DEL NUEVO APICULTOR");
+    
+        try {
+            // SE piden los datos del nuevo apicultor
+            String nombre = Utils.solicitarCampo("Ingrese el nombre del apicultor: ");
+            String telefono = Utils.solicitarCampo("Ingrese el teléfono del apicultor: ");
+            int edad = solicitarEdad();
+            int experiencia = solicitarExperiencia(edad);
+            String direccion = Utils.solicitarCampo("Ingrese la dirección del apicultor: ");
+            String identificacion = Utils.solicitarCampo("Ingrese la identificación (DNI/ID/Cédula) del apicultor: ");
+    
+            // Crear objeto Apicultor
+            Apicultor nuevoApicultor = new Apicultor(nombre, telefono, edad, experiencia, direccion, identificacion);
+    
+            // Agregar el apicultor a la lista correspondiente (en este caso, a datosApicola)
+            datosApicola.agregarApicultor(nuevoApicultor);
+    
+            // Confirmar el registro
+            System.out.println("✅ Apicultor registrado correctamente.");
+        } catch (Exception e) {
+            System.out.println("❌ Error al registrar el apicultor: " + e.getMessage());
+        }
+}
 
     public static void asignarAbejaReina() {
         // TODO: Mostrar lista de colmenas sin reina
