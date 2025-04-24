@@ -6,6 +6,7 @@ import Clases.Principales.*;
 import Clases.LeerJson;
 
 public class PrinColmena {
+    static DatosApicola datosApicola = new DatosApicola();
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -48,15 +49,15 @@ public class PrinColmena {
    public static boolean manejarOpcion(String opcion) {
         switch (opcion) {
             case "1" -> GestorColmenas.registrarColmena(datosApicola);
-            case "2" -> GestorColmenas.registrarApicultor();
-            case "3" -> GestorColmenas.asignarAbejaReina();
-            case "4" -> GestorColmenas.realizarInspeccion();
-            case "5" -> GestorColmenas.mostrarInformacion();
-            case "6" -> GestorColmenas.asignarApicultorAColmena();
-            case "7" -> GestorColmenas.editarInformacion();
+            case "2" -> SistemaApicola.registrarApicultor();
+            case "3" -> SistemaApicola.asignarAbejaReina();
+            //case "4" -> Inspección.realizarInspeccion(); <-- Hay hacer la correcion
+            case "5" -> SistemaApicola.mostrarInformacion();
+            case "6" -> SistemaApicola.asignarApicultorAColmena();
+            case "7" -> SistemaApicola.editarInformacion();
             case "8" -> {
             // Guardar los datos al salir
-            LeerJson.Guardar(datosApicola); // Guardar la información
+            //LeerJson.Guardar(datosApicola); // Guardar la información
             return false; // Finalizar el ciclo y salir del programa
             }
             default -> System.out.println("⚠️ Opción no válida. Intenta nuevamente.");
