@@ -24,4 +24,3 @@ public class AbejaReina {
             """, estadoSalud, edad, productividad);
     }
 }
-}
