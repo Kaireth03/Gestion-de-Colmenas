@@ -11,8 +11,8 @@ public class GestorColmenas {
 
         try {
             String id = Utils.solicitarCampo("Ingrese ID de la colmena: ");
-            if (Utils.idExiste(GestorColmenas.datosApicola.obtenerColmenas(), id)) {
-                System.out.println("El ID " + id + " ya está registrado.\n");
+            if (Utils.idExiste(datosApicola.obtenerColmenas(), id)) {
+                System.out.println("⚠️ El ID " + id + " ya está registrado.\n");
                 return;
             }
 
@@ -23,14 +23,14 @@ public class GestorColmenas {
             float produccionMiel = solicitarProduccionMiel();
 
             Colmena nueva = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
-            GestorColmenas.datosApicola.agregarColmena(nueva);
-            colmenas.add(nueva);
+            datosApicola.agregarColmena(nueva);  // usamos directamente el parámetro
 
             System.out.println("✅ Colmena registrada correctamente.");
         } catch (Exception e) {
             System.out.println("❌ Error al registrar la colmena: " + e.getMessage());
         }
     }
+
 
     public static void actualizarUbicacion(String id, String nuevaUbicacion) {
         Colmena colmena = buscarColmena(id);
