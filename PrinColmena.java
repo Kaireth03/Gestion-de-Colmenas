@@ -7,8 +7,6 @@ import Clases.LeerJson;
 
 public class PrinColmena {
     static Scanner scanner = new Scanner(System.in);
-    static ArrayList<Colmena> Colmenas = new ArrayList<>();
-    static DatosApicola datosApicola = new DatosApicola();
 
     public static void main(String[] args) {
         try {
