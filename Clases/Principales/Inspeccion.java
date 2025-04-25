@@ -74,6 +74,12 @@ public class Inspeccion implements Serializable {
         System.out.println("✅ Inspecciones completas.");
     }
 
+    public static void inspeccionarYGuardar(Colmena colmena, String metodo) {
+        Inspeccion inspeccion = realizar(colmena, metodo);
+        colmena.agregarInspeccion(inspeccion);
+        System.out.println(inspeccion.resumen(colmena));
+    }
+
 
     public Date getFecha() {
         return fecha;
