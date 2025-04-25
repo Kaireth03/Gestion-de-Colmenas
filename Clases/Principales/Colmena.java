@@ -1,8 +1,12 @@
 package Clases.Principales;
 
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Colmena {
+    private List<Inspección> inspecciones = new ArrayList<>();
+
     private String id;
     private String ubicacion;
     private String tipo;
@@ -25,7 +29,19 @@ public class Colmena {
         this.notasInspeccion = "";
     }
 
+    //Metodos:
+    public void agregarInspeccion(Inspección inspeccion) {
+        this.inspecciones.add(inspeccion);
+        this.ultimaInspeccion = inspeccion.getFecha();
+        this.notasInspeccion = inspeccion.getResultado() + " - " + inspeccion.getAcciones();
+    }
+
+
     // Getters y Setters
+    public List<Inspección> getInspecciones() {
+        return inspecciones;
+    }
+    
     public String getId() { return id; }
 
     public void setId(String id) { this.id = id; }
