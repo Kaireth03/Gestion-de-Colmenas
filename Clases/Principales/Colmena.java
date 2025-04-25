@@ -63,12 +63,6 @@ public class Colmena {
     public String getEstadoSalud() { return estadoSalud; }
     public void setEstadoSalud(String estadoSalud) { this.estadoSalud = estadoSalud; }
 
-    public Date getUltimaInspeccion() { return ultimaInspeccion; }
-    public void setUltimaInspeccion(Date ultimaInspeccion) { this.ultimaInspeccion = ultimaInspeccion; }
-
-    public String getNotasInspeccion() { return notasInspeccion; }
-    public void setNotasInspeccion(String notasInspeccion) { this.notasInspeccion = notasInspeccion; }
-
     @Override
     public String toString() {
         return "Colmena{" +
