@@ -1,4 +1,7 @@
-<img src="assets/hivemaster-banner.svg" alt="HiveMaster 3000" style="max-width: 100%; height: auto;" />
+<p align="center">
+  <img src="assets/hivemaster-banner.svg" alt="HiveMaster 3000" width="800" height="200">
+</p>
+
 
 # 🍯 HiveMaster 3000™ — Sistema de Gestión de Colmenas para Apicultores
 
