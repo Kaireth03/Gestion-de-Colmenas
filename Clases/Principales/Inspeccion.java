@@ -136,7 +136,15 @@ class HiloInspeccion implements Runnable {
     @Override
     public void run() {
         Inspeccion inspeccion = Inspeccion.realizar(colmena, metodo);
-        colmena.agregarInspeccion(inspeccion); // Make sure this method exists in Colmena
+        colmena.agregarInspeccion(inspeccion);
+
+        // 🧠 Save colmena (assuming this method persists the updated colmena)
+        //Datos.getInstance().guardarColmena(colmena);
+
+        // 📣 Print resumen + estado después de inspección
         System.out.println(inspeccion.resumen(colmena));
+        System.out.printf("✅ Colmena %s inspeccionada. Estado: %s%n",
+                colmena.getId(), colmena.getEstadoSalud());
     }
 }
+
