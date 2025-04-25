@@ -34,47 +34,40 @@ public class SistemaApicola {
         }
     }
 
-    public static void asignarAbejaReina() {
-        System.out.println("Crear Abeja reyna");
-        System.out.println("Nombre de la Abeja reyna");
-        String nombre_abeja_reyna = scanner.nextLine();
-        System.out.println("Edad de la Abeja reyna");
-        Int edad_abeja_reyna = scanner.nextInt();
-        
-        System.out.println("Salud de la Abeja reyna"); 
-        String estado_abeja_reyna = scanner.nextLine();
-        
-        System.out.println("Productividad de la Abeja reyna"); 
-        double productividad = scanner.nextDouble();
-   
-        // Se crea una abeja reyna nueva y se agrega a la lista de abejas reyna
-        AbejaReyna abejareyna = new AbejaReyna(estado_abeja_reyna, edad_abeja_reyna, nombre_abeja_reyna, productividad);
-        abejas_existentes.add(abejareyna);
-        
-        
-        for(int i = 0 ; i < datosApicola.colmenas.size(); i++){
-                    System.out.println((i+1) + ". " + datosApicola.colmenas.get(i));  
-        }
-        System.out.println("Que id de colmena se le va a asignar");
-        String colmena = scanner.nextLine();
-        
-        if (Colmenas_con_abeja_reyna.stream().anyMatch(c -> c.getId().equals(id))) {
-             // Acción si hay alguna colmena con ese ID
-             System.out.println("La colmena con ese ID ya tiene una abeja reina.");
-        }else{
-            //Agrega a la lista de abejasreynas con colmenas
-            Colmenas_con_abeja_reyna.add(colmena,abejareyna)
-            System.out.println("Se asigno la Abeja reyna a la Colmena");
-            
-        }
-        
-        // TODO: Mostrar lista de colmenas sin reina
-        // TODO: Permitir elegir colmena
-        // TODO: Pedir datos de la abeja reina (nombre, edad, etc.)
-        // TODO: Validar datos
-        // TODO: Asignar la abeja reina a la colmena seleccionada
-        // TODO: Confirmar asignación
+   package Clases.Principales;
+
+public class AbejaReina {
+    private String estadoSalud;
+    private byte edad;
+    private float productividad;
+
+    public AbejaReina(String estadoSalud, byte edad, float productividad) {
+        this.estadoSalud = estadoSalud;
+        this.edad = edad;
+        this.productividad = productividad;
     }
+
+    public String getEstadoSalud() {
+        return estadoSalud;
+    }
+
+    public byte getEdad() {
+        return edad;
+    }
+
+    public float getProductividad() {
+        return productividad;
+    }
+
+    public String obtenerEstado() {
+        return String.format("""
+            👑 Abeja Reina:
+            🩺 Salud: %s
+            🕰 Edad: %d años
+            🍯 Productividad: %.2f kg de miel
+            """, estadoSalud, edad, productividad);
+    }
+}
 
     public static void mostrarInformacion() {
         System.out.println("Que informacion desea ver:");
