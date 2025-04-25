@@ -2,7 +2,9 @@ package Clases.Principales;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Inspeccion implements Serializable {
@@ -46,23 +48,22 @@ public class Inspeccion implements Serializable {
     }
 
     public static void inspeccionarTodasColmenasConHilos() {
-        List<Colmena> colmenas = datos.obtenerColmenas();
-    
+        List<Colmena> colmenas = DatosApicola.getInstancia().obtenerColmenas();
+
         if (colmenas.isEmpty()) {
             System.out.println("❌ No hay colmenas para inspeccionar.");
             return;
         }
-    
+
         System.out.println("🔧 Iniciando inspecciones concurrentes...");
-    
+
         List<Thread> hilos = new ArrayList<>();
         for (Colmena colmena : colmenas) {
             Thread hilo = new Thread(new HiloInspeccion(colmena, "Concurrente"));
             hilos.add(hilo);
             hilo.start();
         }
-    
-        // Esperar que todos los hilos terminen
+
         for (Thread hilo : hilos) {
             try {
                 hilo.join();
@@ -70,16 +71,16 @@ public class Inspeccion implements Serializable {
                 System.out.println("⚠️ Un hilo fue interrumpido.");
             }
         }
-    
+
         System.out.println("✅ Inspecciones completas.");
     }
 
     public static void inspeccionarYGuardar(Colmena colmena, String metodo) {
         Inspeccion inspeccion = realizar(colmena, metodo);
         colmena.agregarInspeccion(inspeccion);
+        DatosApicola.getInstancia().guardarColmena(colmena);
         System.out.println(inspeccion.resumen(colmena));
     }
-
 
     public Date getFecha() {
         return fecha;
@@ -104,7 +105,9 @@ public class Inspeccion implements Serializable {
     }
 
     private static void delay() {
-        try { Thread.sleep(ThreadLocalRandom.current().nextInt(400, 1200)); } catch (InterruptedException ignored) {}
+        try {
+            Thread.sleep(ThreadLocalRandom.current().nextInt(400, 1200));
+        } catch (InterruptedException ignored) {}
     }
 
     private static String getResultado(int puntos) {
@@ -138,13 +141,11 @@ class HiloInspeccion implements Runnable {
         Inspeccion inspeccion = Inspeccion.realizar(colmena, metodo);
         colmena.agregarInspeccion(inspeccion);
 
-        // 🧠 Save colmena (assuming this method persists the updated colmena)
-        //Datos.getInstance().guardarColmena(colmena);
+        // ✅ Persist changes
+        DatosApicola.getInstancia().guardarColmena(colmena);
 
-        // 📣 Print resumen + estado después de inspección
+        // ✅ Output resumen
         System.out.println(inspeccion.resumen(colmena));
-        System.out.printf("✅ Colmena %s inspeccionada. Estado: %s%n",
-                colmena.getId(), colmena.getEstadoSalud());
+        System.out.printf("📦 Colmena %s actualizada. Estado: %s%n", colmena.getId(), colmena.getEstadoSalud());
     }
 }
-
