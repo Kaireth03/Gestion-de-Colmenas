@@ -8,6 +8,15 @@ public class DatosApicola implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    private static DatosApicola instancia;
+
+    public static DatosApicola getInstancia() {
+        if (instancia == null) {
+            instancia = new DatosApicola();
+        }
+        return instancia;
+    }
+
     public final List<Colmena> colmenas;
     public final List<Apicultor> apicultores;
     public final Map<String, Apicultor> asignaciones;
@@ -25,6 +34,16 @@ public class DatosApicola implements Serializable {
     public void agregarColmena(Colmena colmena) {
         if (colmena == null) throw new IllegalArgumentException("Colmena no puede ser nula.");
         colmenas.add(colmena);
+    }
+
+    public void guardarColmena(Colmena colmenaActualizada) {
+        for (int i = 0; i < colmenas.size(); i++) {
+            if (colmenas.get(i).getId().equals(colmenaActualizada.getId())) {
+                colmenas.set(i, colmenaActualizada);
+                return;
+            }
+        }
+        colmenas.add(colmenaActualizada);
     }
 
     public void agregarApicultor(Apicultor apicultor) {
