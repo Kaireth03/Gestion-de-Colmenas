@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="assets/hivemaster-banner.svg" alt="HiveMaster 3000™" width="800" height="200">
+  <img src="assets/hivemaster-banner.svg" alt="Ecosistema Apicola™" width="800" height="200">
 </p>
 
 
-# 🍯 HiveMaster 3000™ — Sistema de Gestión de Colmenas para Apicultores
+# 🍯 Ecosistema Apicola™ — Sistema de Gestión de Colmenas para Apicultores
 
 *Porque cada abeja cuenta... y la reina manda.*
 
@@ -11,7 +11,7 @@
 
 ## 🐝 Descripción
 
-**HiveMaster 3000** es una aplicación en Java orientada a objetos diseñada para gestionar colmenas en una explotación apícola. Con un enfoque modular y educativo, este sistema integra múltiples aspectos fundamentales de la programación Java, desde estructuras básicas hasta hilos, recursividad, expresiones lambda y manejo de archivos.
+**Ecosistema Apicola** es una aplicación en Java orientada a objetos diseñada para gestionar colmenas en una explotación apícola. Con un enfoque modular y educativo, este sistema integra múltiples aspectos fundamentales de la programación Java, desde estructuras básicas hasta hilos, recursividad, expresiones lambda y manejo de archivos.
 
 Este proyecto es parte de una entrega grupal individual del salón, porque... sí, así funciona la vida 🐝💻
 
