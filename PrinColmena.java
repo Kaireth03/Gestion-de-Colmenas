@@ -1,6 +1,7 @@
 import java.util.Scanner;
-//import Clases.LeerJson;
+// import Clases.LeerJson;
 import Clases.Principales.*;
+import Clases.Utils; // ✅ Importa a classe de utilitários visuais
 
 public class PrinColmena {
     static final DatosApicola datosApicola = new DatosApicola();
@@ -16,27 +17,28 @@ public class PrinColmena {
 
             // LeerJson.Guardar(Colmenas);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            Utils.error("Ocurrió un error inesperado: " + e.getMessage());
         }
     }
 
     public static void mostrarMenu() {
-        System.out.println("""
+        System.out.println(Utils.ANSI_BLACK + """
         ╔═════════════════════════════════════════════════════════════╗
             🌼🐝  BIENVENIDO AL SISTEMA DE GESTIÓN APÍCOLA  🐝🌼
                      ¡Administra & Registra tus colmenas! 🍯
         ╚═════════════════════════════════════════════════════════════╝
-       
-        1️👥  Registrar nueva Colmena
-        2️‍🆕  Registrar nuevo Apicultor
-        3️👑  Asignar Abeja Reina a una Colmena
-        4️👀  Realizar Inspección a Colmena
-        5️📝  Mostrar Información Registrada
-        6️🧑🏻‍🌾  Asignar Apicultor a Colmena
-        7️📩  Editar Información Existente
-        8️🔚  Salir del Sistema
-        """);
-        System.out.print("📜 Indica tu próximo movimiento: ");
+        """ + Utils.ANSI_RESET);
+
+        Utils.amarillo("1️👥  Registrar nueva Colmena");
+        Utils.amarillo("2️‍🆕  Registrar nuevo Apicultor");
+        Utils.amarillo("3️👑  Asignar Abeja Reina a una Colmena");
+        Utils.amarillo("4️👀  Realizar Inspección a Colmena");
+        Utils.amarillo("5️📝  Mostrar Información Registrada");
+        Utils.amarillo("6️🧑🏻‍🌾  Asignar Apicultor a Colmena");
+        Utils.amarillo("7️📩  Editar Información Existente");
+        Utils.amarillo("8️🔚  Salir del Sistema");
+
+        System.out.print(Utils.ANSI_GRAY + "\n📜 Indica tu próximo movimiento: " + Utils.ANSI_RESET);
     }
 
     public static boolean manejarOpcion(String opcion) {
@@ -49,12 +51,12 @@ public class PrinColmena {
             case "6" -> { SistemaApicola.asignarApicultorAColmena(); yield true; }
             case "7" -> { SistemaApicola.editarInformacion(); yield true; }
             case "8" -> {
-                // Guardar los datos al salir
-                //LeerJson.Guardar(datosApicola); // Guardar la información
-                yield false; // Finalizar el ciclo y salir del programa
+                Utils.negro("🔚 Saliendo del sistema... ¡Hasta pronto!");
+                // LeerJson.Guardar(datosApicola); // Guardar la información
+                yield false;
             }
             default -> {
-                System.out.println("⚠️ Opción no válida. Intenta nuevamente.");
+                Utils.error("⚠️ Opción no válida. Intenta nuevamente.");
                 yield true;
             }
         };
