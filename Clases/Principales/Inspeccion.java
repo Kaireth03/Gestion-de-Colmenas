@@ -2,16 +2,16 @@ package Clases.Principales;
 
 import java.io.Serializable;
 import java.util.*;
-import Clases.Principales.util; // tu clase de utilidades
+import Clases.Principales.*;
 
-public class Inspección implements Serializable {
+public class Inspeccion implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Date fecha;
     private String resultado;
     private String acciones;
 
-    public Inspección(String resultado, String acciones) {
+    public Inspeccion(String resultado, String acciones) {
         this.fecha = new Date(); // Fecha actual al crear la inspección
         this.resultado = resultado;
         this.acciones = acciones;
