@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="assets/ecosistema-apicola-banner.svg" alt="Ecosistema Apicola™" width="800" height="200">
-</p>
+
 
 
 # 🍯 Ecosistema Apicola™ — Sistema de Gestión de Colmenas para Apicultores
