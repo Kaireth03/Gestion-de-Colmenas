@@ -59,13 +59,13 @@ Este proyecto es parte de una entrega grupal individual del salón, porque... s�
 
 ## 🚀 Ejecución
 
-# Compilar
+### Compilar
 javac PrinColmena.java
 
-# Ejecutar
+### Ejecutar
 java PrinColmena
 
-📦 Requisitos
+## 📦 Requisitos
 
     Java 8 o superior
 
