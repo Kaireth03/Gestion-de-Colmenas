@@ -1,81 +1,73 @@
 package Clases.Principales;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Apicultor implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-    public String nombre;
-    public String telefono;
-    public int edad;
-    public int experiencia;
-    public String direccion;
-    public String identificacion;
+    private String nombre;
+    private String telefono;
+    private byte edad;
+    private byte experiencia;
+    private String direccion;
+    private String identificacion;
 
     public Apicultor(String nombre, String telefono, int edad, int experiencia, String direccion, String identificacion) {
         setNombre(nombre);
         setTelefono(telefono);
-        setEdad(edad);
-        setExperiencia(experiencia);
+        setEdad((byte) edad);
+        setExperiencia((byte) experiencia);
         setDireccion(direccion);
         setIdentificacion(identificacion);
     }
 
     public void setNombre(String nombre) {
-        if (nombre != null && !nombre.trim().isEmpty()) {
-            this.nombre = nombre;
-        } else {
-            throw new IllegalArgumentException("Nombre inválido.");
-        }
+        if (isValidString(nombre)) this.nombre = nombre;
+        else throw new IllegalArgumentException("Nombre inválido.");
     }
 
     public void setTelefono(String telefono) {
-        if (telefono.matches("^\\+?\\d{8,15}$")) {
-            this.telefono = telefono;
-        } else {
-            throw new IllegalArgumentException("Teléfono inválido. Solo dígitos (opcionalmente con +) entre 8 y 15 caracteres.");
-        }
+        if (telefono.matches("^\\+?\\d{8,15}$")) this.telefono = telefono;
+        else throw new IllegalArgumentException("Teléfono inválido.");
     }
 
-    public void setEdad(int edad) {
-        if (edad >= 18 && edad <= 100) {
-            this.edad = edad;
-        } else {
-            throw new IllegalArgumentException("Edad inválida. Debe ser entre 18 y 100 años.");
-        }
+    public void setEdad(byte edad) {
+        if (edad >= 18 && edad <= 100) this.edad = edad;
+        else throw new IllegalArgumentException("Edad inválida.");
     }
 
-    public void setExperiencia(int experiencia) {
-        if (experiencia >= 0 && experiencia <= edad) {
-            this.experiencia = experiencia;
-        } else {
-            throw new IllegalArgumentException("Experiencia inválida. Debe ser entre 0 y la edad del apicultor.");
-        }
+    public void setExperiencia(byte experiencia) {
+        if (experiencia >= 0 && experiencia <= edad) this.experiencia = experiencia;
+        else throw new IllegalArgumentException("Experiencia inválida.");
     }
 
     public void setDireccion(String direccion) {
-        if (direccion != null && !direccion.trim().isEmpty()) {
-            this.direccion = direccion;
-        } else {
-            throw new IllegalArgumentException("Dirección inválida.");
-        }
+        if (isValidString(direccion)) this.direccion = direccion;
+        else throw new IllegalArgumentException("Dirección inválida.");
     }
 
     public void setIdentificacion(String identificacion) {
-        if (identificacion != null && !identificacion.trim().isEmpty()) {
-            this.identificacion = identificacion;
-        } else {
-            throw new IllegalArgumentException("Identificación inválida.");
-        }
+        if (isValidString(identificacion)) this.identificacion = identificacion;
+        else throw new IllegalArgumentException("Identificación inválida.");
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
     }
 
     @Override
     public String toString() {
-        return  " |Apicultor: " + nombre +
+        return " |Apicultor: " + nombre +
                 " | Teléfono: " + telefono +
                 " | Edad: " + edad +
                 " | Experiencia: " + experiencia + " años" +
                 " | Dirección: " + direccion +
                 " | Identificación: " + identificacion;
+    }
+
+    private boolean isValidString(String s) {
+        return s != null && !s.trim().isEmpty();
     }
 }
