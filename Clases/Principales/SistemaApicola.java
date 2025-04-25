@@ -43,7 +43,7 @@ public class SistemaApicola {
         colmenasConAbejaReina.put(idColmena, reina);
         Utils.delayPrint("✅ Abeja reina asignada correctamente.", 700);
     }
-
+    
     public static void mostrarInformacion() {
         System.out.println("""
             ¿Qué desea ver?
@@ -51,8 +51,24 @@ public class SistemaApicola {
             2. Apicultores
             3. Abejas reinas
             4. Historial de inspección
+            5. Buscar información
             0. Volver
         """);
+
+    byte opcion = scanner.nextByte();
+    scanner.nextLine();
+
+    switch (opcion) {
+        case 1 -> mostrarColmenas();
+        case 2 -> mostrarLista(datos.apicultores);
+        case 3 -> mostrarLista(abejasExistentes);
+        case 4 -> mostrarHistorialInspeccion();
+        case 5 -> buscarElemento();
+        case 0 -> System.out.println("↩ Volviendo...");
+        default -> System.out.println("Opción inválida.");
+    }
+}
+
 
         byte opcion = scanner.nextByte();
         scanner.nextLine();
@@ -257,6 +273,53 @@ public class SistemaApicola {
             };
         }
     }
+
+    private static void buscarElemento() {
+        System.out.println("""
+            ¿Qué desea buscar?
+            1. Colmena por ID
+            2. Apicultor por nombre o ID
+            3. Abeja Reina por estado de salud
+            0. Volver
+        """);
+    
+        byte opcion = scanner.nextByte();
+        scanner.nextLine();
+    
+        switch (opcion) {
+            case 1 -> {
+                String id = solicitarInput("Ingrese el ID de la colmena: ");
+                Optional<Colmena> colmena = datos.colmenas.stream()
+                        .filter(c -> c.getId().equalsIgnoreCase(id))
+                        .findFirst();
+                colmena.ifPresentOrElse(
+                        System.out::println,
+                        () -> System.out.println("❌ No se encontró la colmena.")
+                );
+            }
+            case 2 -> {
+                String termino = solicitarInput("Ingrese el nombre o ID del apicultor: ").toLowerCase();
+                datos.apicultores.stream()
+                        .filter(a -> a.getNombre().toLowerCase().contains(termino) || a.getIdentificacion().equalsIgnoreCase(termino))
+                        .forEachOrElse(
+                            a -> System.out.println("🔍 " + a),
+                            () -> System.out.println("❌ No se encontraron apicultores.")
+                        );
+            }
+            case 3 -> {
+                String salud = solicitarInput("Ingrese el estado de salud de la abeja reina: ").toLowerCase();
+                abejasExistentes.stream()
+                        .filter(r -> r.getEstadoSalud().toLowerCase().contains(salud))
+                        .forEachOrElse(
+                            r -> System.out.println("👑 " + r),
+                            () -> System.out.println("❌ No se encontraron abejas reinas.")
+                        );
+            }
+            case 0 -> System.out.println("↩ Volviendo...");
+            default -> System.out.println("❌ Opción inválida.");
+        }
+    }
+
 
     private static String solicitarEstadoSalud() {
         return Utils.solicitarCampo("Estado de salud: ");
