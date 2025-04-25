@@ -103,6 +103,6 @@ Fecha: 2025-04-25 | Resultado: Sin anomalías | Acción: Ninguna
 
 Este proyecto fue creado con fines académicos. Reutilízalo con crédito si te ayudó en algo 🐝
 
-🐝 Frase del Día
+# 🐝 Frase del Día
 
     “La vida de la colmena depende del zumbido del código.” — H_4sh
