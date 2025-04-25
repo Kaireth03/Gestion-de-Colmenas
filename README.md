@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/hivemaster-banner.svg" alt="HiveMaster 3000" width="800" height="200">
+  <img src="assets/hivemaster-banner.svg" alt="HiveMaster 3000™" width="800" height="200">
 </p>
 
 
