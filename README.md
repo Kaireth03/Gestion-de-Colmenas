@@ -72,3 +72,37 @@ java PrinColmena
     Compilador de Java (javac)
 
     Terminal o consola
+
+## 🔍 Ejemplos de Uso
+
+> Listar colmenas
+ID: COL001 | Ubicación: Zona Norte | Salud: Buena | Miel: 12.3L
+
+> Registrar inspección
+Fecha: 2025-04-25 | Resultado: Sin anomalías | Acción: Ninguna
+
+## 🧯 Validaciones y Seguridad
+
+    Nombres de apicultores: solo letras y espacios (^[A-ZÁÉÍÓÚÑa-záéíóúñ ]+$)
+
+    ID de colmenas: formato COL###
+
+    Cantidad de abejas: solo números positivos
+
+    Fecha de inspección: formato dd/MM/yyyy
+
+## ✨ Bonus: Funcionalidades Cool
+
+    ✅ Simulación de múltiples inspecciones en paralelo usando Thread
+
+    ✅ Búsqueda recursiva en inspecciones: "¿cuándo fue la última vez que esta colmena tuvo problemas?"
+
+    ✅ Uso de lambda para filtrar colmenas por salud o productividad
+
+## 🧾 Licencia
+
+Este proyecto fue creado con fines académicos. Reutilízalo con crédito si te ayudó en algo 🐝
+
+🐝 Frase del Día
+
+    “La vida de la colmena depende del zumbido del código.” — H_4sh
