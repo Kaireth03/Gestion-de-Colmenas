@@ -4,35 +4,75 @@ import java.util.*;
 
 public class Utils {
     private static final Scanner scanner = new Scanner(System.in);
-    
-    /**
-     * Solicita un valor textual al usuario asegurándose de que no esté vacío.
-     * 
-     * @param mensaje Mensaje que se mostrará al usuario.
-     * @return El input válido del usuario.
-     * @throws IllegalArgumentException si el input no es válido.
-     */
+
+    // ───────────────────────────────────────────
+    // TEXT INPUT
+    // ───────────────────────────────────────────
     public static String solicitarCampo(String mensaje) {
-        // Se muestra el mensaje al usuario para indicar qué información debe ingresar.
-        System.out.print(mensaje);
+        String input;
+        while (true) {
+            System.out.print(mensaje);
+            input = scanner.nextLine().trim();
 
-        // Se lee la entrada del usuario y se eliminan los espacios en blanco al inicio y al final.
-        String input = scanner.nextLine().trim();
-
-        // Se verifica que el usuario no haya dejado el campo vacío, ya que eso impediría continuar con datos válidos.
-        if (input.isEmpty()) {
-            // Si está vacío, se lanza una excepción para forzar que el campo sea obligatorio.
-            throw new IllegalArgumentException("❌ El campo no puede estar vacío.");
+            if (input.isEmpty()) {
+                System.out.println("❌ El campo no puede estar vacío. Intenta de nuevo.");
+            } else {
+                return input;
+            }
         }
+    }
 
-        // Si todo está bien, se devuelve el texto ingresado por el usuario.
-        return input;
-    }    
+    // ───────────────────────────────────────────
+    // NUMERIC INPUTS
+    // ───────────────────────────────────────────
 
-    // Verifica si un ID ya existe en la lista de colmenas para evitar duplicados.
+    public static byte solicitarByteEnRango(String mensaje, byte min, byte max) {
+        while (true) {
+            try {
+                String input = solicitarCampo(mensaje);
+                byte valor = Byte.parseByte(input);
+                if (valor < min || valor > max) {
+                    System.out.println("❌ El valor debe estar entre " + min + " y " + max + ".");
+                    continue;
+                }
+                return valor;
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Debe ser un número entero.");
+            }
+        }
+    }
+
+    public static float solicitarFloatMin(String mensaje, float min) {
+        while (true) {
+            try {
+                String input = solicitarCampo(mensaje);
+                float valor = Float.parseFloat(input);
+                if (valor < min) {
+                    System.out.println("❌ El valor debe ser mayor o igual a " + min + ".");
+                    continue;
+                }
+                return valor;
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Debe ser un número decimal.");
+            }
+        }
+    }
+
+    // ───────────────────────────────────────────
+    // ID CHECKING
+    // ───────────────────────────────────────────
+
     public static boolean idExiste(List<Colmena> colmenas, String id) {
-        // Se usa un stream para recorrer todas las colmenas y comparar cada ID con el que se quiere registrar.
-        // Se devuelve 'true' apenas se encuentra una coincidencia, lo que lo hace eficiente.
         return colmenas.stream().anyMatch(c -> c.getId().equals(id));
     }
+
+    // ───────────────────────────────────────────
+    // Delayed Printing
+    // ───────────────────────────────────────────
+
+    public static void delayPrint(String msg, long ms) {
+        System.out.println(msg);
+        try { Thread.sleep(ms); } catch (InterruptedException ignored) {}
+    }
+
 }
