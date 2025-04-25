@@ -4,114 +4,95 @@ import java.util.*;
 
 public class SistemaApicola {
     private static final Scanner scanner = new Scanner(System.in);
-    public static List<AbejaReyna> abejasExistentes = new ArrayList<>();
-    public static Map<String, AbejaReyna> colmenasConAbejaReina = new HashMap<>();
-
-    private static final Inspeccion inspeccion = new Inspeccion();
-    private static final DatosApicola datosApicola = new DatosApicola();
-
-    // ==== MÉTODOS DE REGISTRO ====
+    public static final List<AbejaReina> abejasExistentes = new ArrayList<>();
+    public static final Map<String, AbejaReina> colmenasConAbejaReina = new HashMap<>();
+    private static final DatosApicola datos = GestorColmenas.getDatosApicola();
 
     public static void registrarApicultor() {
-        System.out.println("REGISTRO DEL NUEVO APICULTOR");
-
         try {
             String nombre = Utils.solicitarCampo("Ingrese el nombre del apicultor: ");
             String telefono = Utils.solicitarCampo("Ingrese el teléfono del apicultor: ");
             byte edad = solicitarEdad();
             byte experiencia = solicitarExperiencia(edad);
             String direccion = Utils.solicitarCampo("Ingrese la dirección del apicultor: ");
-            String identificacion = Utils.solicitarCampo("Ingrese la identificación (DNI/ID/Cédula): ");
+            String id = Utils.solicitarCampo("Ingrese la identificación (DNI/ID/Cédula): ");
 
-            Apicultor nuevo = new Apicultor(nombre, telefono, edad, experiencia, direccion, identificacion);
-            datosApicola.agregarApicultor(nuevo);
-
-            System.out.println("✅ Apicultor registrado correctamente.");
+            datos.agregarApicultor(new Apicultor(nombre, telefono, edad, experiencia, direccion, id));
+            Utils.delayPrint("✅ Apicultor registrado correctamente.", 700);
         } catch (Exception e) {
-            System.out.println("❌ Error: " + e.getMessage());
+            Utils.delayPrint("❌ Error: " + e.getMessage(), 700);
         }
     }
 
     public static void asignarAbejaReina() {
-        System.out.println("CREACIÓN DE ABEJA REINA");
-
-        String nombre = solicitarInput("Nombre de la Abeja Reina: ");
-        byte edad = Byte.parseByte(solicitarInput("Edad: "));
-        String estadoSalud = solicitarInput("Estado de salud: ");
+        byte edad = Utils.solicitarByteEnRango("Edad: ", (byte) 0, (byte) 5);
+        String salud = solicitarEstadoSaludReina();
         float productividad = Float.parseFloat(solicitarInput("Productividad: "));
 
-        AbejaReyna nuevaReina = new AbejaReyna(estadoSalud, edad, nombre, productividad);
-        abejasExistentes.add(nuevaReina);
+        AbejaReina reina = new AbejaReina(salud, edad, productividad);
+        abejasExistentes.add(reina);
 
         mostrarColmenas();
+        String idColmena = solicitarInput("ID de la colmena para asignar la reina: ");
 
-        String colmenaId = solicitarInput("ID de la colmena para asignar la reina: ");
-        if (colmenasConAbejaReina.containsKey(colmenaId)) {
+        if (colmenasConAbejaReina.containsKey(idColmena)) {
             System.out.println("❌ Esa colmena ya tiene una abeja reina.");
             return;
         }
 
-        colmenasConAbejaReina.put(colmenaId, nuevaReina);
-        System.out.println("✅ Abeja reina asignada correctamente.");
+        colmenasConAbejaReina.put(idColmena, reina);
+        Utils.delayPrint("✅ Abeja reina asignada correctamente.", 700);
     }
-
-    // ==== MOSTRAR INFORMACIÓN ====
 
     public static void mostrarInformacion() {
         System.out.println("""
-                ¿Qué desea ver?
-                1. Colmenas registradas
-                2. Apicultores
-                3. Abejas reinas
-                4. Historial de inspección
-                0. Volver
-            """);
+            ¿Qué desea ver?
+            1. Colmenas registradas
+            2. Apicultores
+            3. Abejas reinas
+            4. Historial de inspección
+            0. Volver
+        """);
 
         byte opcion = scanner.nextByte();
-        scanner.nextLine(); // Limpiar buffer
+        scanner.nextLine();
 
         switch (opcion) {
             case 1 -> mostrarColmenas();
-            case 2 -> mostrarLista(datosApicola.apicultores);
+            case 2 -> mostrarLista(datos.apicultores);
             case 3 -> mostrarLista(abejasExistentes);
-            case 4 -> mostrarLista(inspeccion.reportes);
+            case 4 -> mostrarHistorialInspeccion();
             case 0 -> System.out.println("↩ Volviendo...");
             default -> System.out.println("Opción inválida.");
         }
     }
 
-    // ==== ASIGNACIÓN DE APICULTOR ====
-
     public static void asignarApicultorAColmena() {
         mostrarColmenas();
         String colmenaId = solicitarInput("ID de la colmena para asignar el apicultor: ");
+        mostrarLista(datos.apicultores);
 
-        mostrarLista(datosApicola.apicultores);
-        int indice = Integer.parseInt(solicitarInput("Índice del apicultor a asignar (1, 2, ...): ")) - 1;
-
-        if (indice < 0 || indice >= datosApicola.apicultores.size()) {
+        int i = Integer.parseInt(solicitarInput("Índice del apicultor a asignar: ")) - 1;
+        if (i < 0 || i >= datos.apicultores.size()) {
             System.out.println("❌ Índice inválido.");
             return;
         }
 
-        Apicultor apicultor = datosApicola.apicultores.get(indice);
-        datosApicola.asignarColmenaAPicultor(colmenaId, apicultor);
-        System.out.println("✅ Apicultor asignado a la colmena.");
+        datos.asignarColmenaAPicultor(colmenaId, datos.apicultores.get(i));
+        Utils.delayPrint("✅ Apicultor asignado a la colmena.", 700);
     }
-
-    // ==== EDICIÓN DE DATOS ====
 
     public static void editarInformacion() {
         System.out.println("""
-                ¿Qué desea editar?
-                1. Colmenas
-                2. Apicultores
-                3. Abejas reinas
-                0. Volver
-            """);
+            ¿Qué desea editar?
+            1. Colmenas
+            2. Apicultores
+            3. Abejas reinas
+            0. Volver
+        """);
 
         byte opcion = scanner.nextByte();
-        scanner.nextLine(); // Limpiar buffer
+        scanner.nextLine();
 
         switch (opcion) {
             case 1 -> editarColmena();
@@ -122,71 +103,121 @@ public class SistemaApicola {
         }
     }
 
-    // ==== MÉTODOS AUXILIARES ====
-
     private static void mostrarColmenas() {
-        mostrarLista(datosApicola.colmenas);
+        mostrarLista(datos.colmenas);
     }
 
     private static <T> void mostrarLista(List<T> lista) {
-        for (int i = 0; i < lista.size(); i++) {
+        for (int i = 0; i < lista.size(); i++)
             System.out.println((i + 1) + ". " + lista.get(i));
+    }
+
+    private static void mostrarHistorialInspeccion() {
+        System.out.println("\n📋 HISTORIAL DE INSPECCIONES:");
+        for (Colmena colmena : datos.obtenerColmenas()) {
+            List<Inspeccion> inspecciones = colmena.getInspecciones();
+            if (!inspecciones.isEmpty()) {
+                System.out.println("🐝 Colmena ID: " + colmena.getId());
+                Inspeccion ins = inspecciones.getFirst();
+                System.out.println("  📅 Fecha: " + ins.getFecha());
+                System.out.println("  📊 Resultado: " + ins.getResultado());
+                System.out.println("  🛠️ Acciones: " + ins.getAcciones());
+                System.out.println();
+            }
         }
     }
 
     private static void editarColmena() {
         mostrarColmenas();
-        int index = Integer.parseInt(solicitarInput("Índice de colmena a editar: ")) - 1;
+        int i = Integer.parseInt(solicitarInput("Índice de colmena a editar: ")) - 1;
+        if (i < 0 || i >= datos.colmenas.size()) {
+            System.out.println("❌ Índice inválido.");
+            return;
+        }
 
-        if (index >= 0 && index < datosApicola.colmenas.size()) {
-            System.out.println("Editando: " + datosApicola.colmenas.get(index));
-            String id = Utils.solicitarCampo("Nuevo ID: ");
-            String ubicacion = Utils.solicitarCampo("Nueva ubicación: ");
-            String estadoSalud = solicitarEstadoSalud();
-            String tipo = Utils.solicitarCampo("Tipo: ");
-            byte cantidad = (byte) solicitarCantidadAbejas();
-            float miel = solicitarProduccionMiel();
+        Colmena vieja = datos.colmenas.get(i);
+        String idViejo = vieja.getId();
+        String nuevoId = Utils.solicitarCampo("Nuevo ID: ");
+        if (!nuevoId.equals(idViejo) && existeColmenaConId(nuevoId)) {
+            System.out.println("❌ Ya existe una colmena con ese ID.");
+            return;
+        }
 
-            Colmena nueva = new Colmena(id, ubicacion, tipo, estadoSalud, cantidad, miel);
-            datosApicola.colmenas.set(index, nueva);
+        Colmena nueva = new Colmena(nuevoId,
+                Utils.solicitarCampo("Nueva ubicación: "),
+                Utils.solicitarCampo("Tipo: "),
+                solicitarEstadoSalud(),
+                (byte) solicitarCantidadAbejas(),
+                solicitarProduccionMiel());
+
+        datos.colmenas.set(i, nueva);
+        actualizarReferenciasColmena(idViejo, nuevoId);
+        Utils.delayPrint("✅ Colmena editada correctamente.", 700);
+    }
+
+    private static boolean existeColmenaConId(String id) {
+        return datos.colmenas.stream().anyMatch(c -> c.getId().equals(id));
+    }
+
+    private static void actualizarReferenciasColmena(String viejo, String nuevo) {
+        if (!nuevo.equals(viejo)) {
+            if (colmenasConAbejaReina.containsKey(viejo))
+                colmenasConAbejaReina.put(nuevo, colmenasConAbejaReina.remove(viejo));
+
+            Apicultor apicultor = datos.obtenerApicultorPorColmena(viejo);
+            if (apicultor != null) {
+                datos.desasignarColmenaDeApicultor(viejo);
+                datos.asignarColmenaAPicultor(nuevo, apicultor);
+            }
         }
     }
 
     private static void editarApicultor() {
-        mostrarLista(datosApicola.apicultores);
-        int index = Integer.parseInt(solicitarInput("Índice del apicultor a editar: ")) - 1;
-
-        if (index >= 0 && index < datosApicola.apicultores.size()) {
-            System.out.println("Editando: " + datosApicola.apicultores.get(index));
-            String nombre = Utils.solicitarCampo("Nombre: ");
-            String telefono = Utils.solicitarCampo("Teléfono: ");
-            byte edad = solicitarEdad();
-            byte experiencia = solicitarExperiencia(edad);
-            String direccion = Utils.solicitarCampo("Dirección: ");
-            String identificacion = Utils.solicitarCampo("Identificación: ");
-
-            Apicultor nuevo = new Apicultor(nombre, telefono, edad, experiencia, direccion, identificacion);
-            datosApicola.apicultores.set(index, nuevo);
+        mostrarLista(datos.apicultores);
+        int i = Integer.parseInt(solicitarInput("Índice del apicultor a editar: ")) - 1;
+        if (i < 0 || i >= datos.apicultores.size()) {
+            System.out.println("❌ Índice inválido.");
+            return;
         }
+
+        String id = Utils.solicitarCampo("Identificación: ");
+        if (!id.equals(datos.apicultores.get(i).getIdentificacion()) && existeIdentificacion(id)) {
+            System.out.println("❌ Ya existe un apicultor con esa identificación.");
+            return;
+        }
+
+        datos.apicultores.set(i, new Apicultor(
+                Utils.solicitarCampo("Nombre: "),
+                Utils.solicitarCampo("Teléfono: "),
+                solicitarEdad(),
+                solicitarExperiencia(solicitarEdad()),
+                Utils.solicitarCampo("Dirección: "),
+                id
+        ));
+
+        Utils.delayPrint("✅ Apicultor editado correctamente.", 700);
+    }
+
+    private static boolean existeIdentificacion(String id) {
+        return datos.apicultores.stream().anyMatch(a -> a.getIdentificacion().equals(id));
     }
 
     private static void editarAbejaReina() {
         mostrarLista(abejasExistentes);
-        int index = Integer.parseInt(solicitarInput("Índice de abeja reina a editar: ")) - 1;
-
-        if (index >= 0 && index < abejasExistentes.size()) {
-            System.out.println("Editando: " + abejasExistentes.get(index));
-            String nombre = solicitarInput("Nombre: ");
-            byte edad = Byte.parseByte(solicitarInput("Edad: "));
-            String estado = solicitarInput("Estado de salud: ");
-            float productividad = Float.parseFloat(solicitarInput("Productividad: "));
-
-            AbejaReyna nueva = new AbejaReyna(estado, edad, nombre, productividad);
-            abejasExistentes.set(index, nueva);
+        int i = Integer.parseInt(solicitarInput("Índice de abeja reina a editar: ")) - 1;
+        if (i < 0 || i >= abejasExistentes.size()) {
+            System.out.println("❌ Índice inválido.");
+            return;
         }
-    }
 
-    // ==== MÉTODOS DE INPUT ====
+        abejasExistentes.set(i, new AbejaReina(
+                solicitarInput("Estado de salud: "),
+                Byte.parseByte(solicitarInput("Edad: ")),
+                Float.parseFloat(solicitarInput("Productividad: "))
+        ));
+
+        Utils.delayPrint("✅ Abeja reina editada correctamente.", 700);
+    }
 
     private static String solicitarInput(String mensaje) {
         System.out.print(mensaje);
@@ -201,11 +232,30 @@ public class SistemaApicola {
         byte exp;
         do {
             exp = Byte.parseByte(solicitarInput("Años de experiencia: "));
-            if (exp > edad) {
-                System.out.println("❌ La experiencia no puede ser mayor a la edad.");
-            }
+            if (exp > edad) System.out.println("❌ La experiencia no puede ser mayor a la edad.");
         } while (exp > edad);
         return exp;
+    }
+
+    private static String solicitarEstadoSaludReina() {
+        System.out.println("""
+            Estado de Salud de la Abeja Reina:
+            1. En plenitud
+            2. Zumbido estable
+            3. Enferma
+        """);
+
+        while (true) {
+            return switch (Utils.solicitarCampo("👉 Ingresa el número correspondiente: ")) {
+                case "1" -> AbejaReina.ESTADOS_SALUD_VALIDOS.getFirst();
+                case "2" -> AbejaReina.ESTADOS_SALUD_VALIDOS.get(1);
+                case "3" -> AbejaReina.ESTADOS_SALUD_VALIDOS.get(2);
+                default -> {
+                    System.out.println("❌ Opción inválida.");
+                    yield "";
+                }
+            };
+        }
     }
 
     private static String solicitarEstadoSalud() {
