@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/hivemaster-banner.svg" alt="Ecosistema Apicola™" width="800" height="200">
+  <img src="assets/hivemaster-banner.svg" alt="Ecosistema Apicol™" width="800" height="200">
 </p>
 
 
