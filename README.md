@@ -52,3 +52,23 @@ Este proyecto es parte de una entrega grupal individual del salón, porque... s�
 
 ## 🐝 Estructura de Clases
 
+![flow](https://github.com/user-attachments/assets/0e45064c-352f-4790-a118-251e2351af6a)
+
+
+---
+
+## 🚀 Ejecución
+
+# Compilar
+javac PrinColmena.java
+
+# Ejecutar
+java PrinColmena
+
+📦 Requisitos
+
+    Java 8 o superior
+
+    Compilador de Java (javac)
+
+    Terminal o consola
