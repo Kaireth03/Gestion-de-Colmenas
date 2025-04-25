@@ -1,17 +1,7 @@
-package Clases.Principales;
-
 import java.util.*;
 
 public class Utils {
     private static final Scanner scanner = new Scanner(System.in);
-
-    // ANSI escape codes
-    public static final String RESET = "\u001B[0m";
-    public static final String RED = "\u001B[31m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
-    public static final String CYAN = "\u001B[36m";
-    public static final String BOLD = "\u001B[1m";
 
     // ───────────────────────────────────────────
     // TEXT INPUT
@@ -19,11 +9,11 @@ public class Utils {
     public static String solicitarCampo(String mensaje) {
         String input;
         while (true) {
-            System.out.print(CYAN + "👉 " + mensaje + RESET);
+            System.out.print(mensaje);
             input = scanner.nextLine().trim();
 
             if (input.isEmpty()) {
-                System.out.println(RED + "❌ El campo no puede estar vacío. Intenta de nuevo." + RESET);
+                System.out.println("❌ El campo no puede estar vacío. Intenta de nuevo.");
             } else {
                 return input;
             }
@@ -40,12 +30,12 @@ public class Utils {
                 String input = solicitarCampo(mensaje);
                 byte valor = Byte.parseByte(input);
                 if (valor < min || valor > max) {
-                    System.out.println(RED + "⚠️ El valor debe estar entre " + min + " y " + max + "." + RESET);
+                    System.out.println("❌ El valor debe estar entre " + min + " y " + max + ".");
                     continue;
                 }
                 return valor;
             } catch (NumberFormatException e) {
-                System.out.println(RED + "❌ Entrada inválida. Debe ser un número entero." + RESET);
+                System.out.println("❌ Entrada inválida. Debe ser un número entero.");
             }
         }
     }
@@ -56,12 +46,12 @@ public class Utils {
                 String input = solicitarCampo(mensaje);
                 float valor = Float.parseFloat(input);
                 if (valor < min) {
-                    System.out.println(RED + "⚠️ El valor debe ser mayor o igual a " + min + "." + RESET);
+                    System.out.println("❌ El valor debe ser mayor o igual a " + min + ".");
                     continue;
                 }
                 return valor;
             } catch (NumberFormatException e) {
-                System.out.println(RED + "❌ Entrada inválida. Debe ser un número decimal." + RESET);
+                System.out.println("❌ Entrada inválida. Debe ser un número decimal.");
             }
         }
     }
@@ -79,20 +69,8 @@ public class Utils {
     // ───────────────────────────────────────────
 
     public static void delayPrint(String msg, long ms) {
-        System.out.println(YELLOW + msg + RESET);
-        try {
-            Thread.sleep(ms);
-        } catch (InterruptedException ignored) {}
+        System.out.println(msg);
+        try { Thread.sleep(ms); } catch (InterruptedException ignored) {}
     }
 
-    // ───────────────────────────────────────────
-    // Stylish Banner
-    // ───────────────────────────────────────────
-
-    public static void printBanner(String titulo) {
-        String decorado = BOLD + CYAN + "╔" + "═".repeat(titulo.length() + 4) + "╗\n" +
-                          "║  " + titulo + "  ║\n" +
-                          "╚" + "═".repeat(titulo.length() + 4) + "╝" + RESET;
-        System.out.println(decorado);
-    }
 }
