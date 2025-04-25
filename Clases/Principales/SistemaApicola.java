@@ -27,7 +27,7 @@ public class SistemaApicola {
     public static void asignarAbejaReina() {
         byte edad = Utils.solicitarByteEnRango("Edad: ", (byte) 0, (byte) 5);
         String salud = solicitarEstadoSaludReina();
-        float productividad = Float.parseFloat(solicitarInput("Productividad: "));
+        float productividad = Utils.solicitarFloatMin("Productividad: ", 0);
 
         AbejaReina reina = new AbejaReina(salud, edad, productividad);
         abejasExistentes.add(reina);
@@ -43,7 +43,7 @@ public class SistemaApicola {
         colmenasConAbejaReina.put(idColmena, reina);
         Utils.delayPrint("✅ Abeja reina asignada correctamente.", 700);
     }
-    
+
     public static void mostrarInformacion() {
         System.out.println("""
             ¿Qué desea ver?
@@ -55,31 +55,16 @@ public class SistemaApicola {
             0. Volver
         """);
 
-    byte opcion = scanner.nextByte();
-    scanner.nextLine();
-
-    switch (opcion) {
-        case 1 -> mostrarColmenas();
-        case 2 -> mostrarLista(datos.apicultores);
-        case 3 -> mostrarLista(abejasExistentes);
-        case 4 -> mostrarHistorialInspeccion();
-        case 5 -> buscarElemento();
-        case 0 -> System.out.println("↩ Volviendo...");
-        default -> System.out.println("Opción inválida.");
-    }
-}
-
-
-        byte opcion = scanner.nextByte();
-        scanner.nextLine();
+        byte opcion = Utils.solicitarByteEnRango("👉 Opción: ", (byte) 0, (byte) 5);
 
         switch (opcion) {
             case 1 -> mostrarColmenas();
             case 2 -> mostrarLista(datos.apicultores);
             case 3 -> mostrarLista(abejasExistentes);
             case 4 -> mostrarHistorialInspeccion();
+            case 5 -> buscarElemento();
             case 0 -> System.out.println("↩ Volviendo...");
-            default -> System.out.println("Opción inválida.");
+            default -> System.out.println("❌ Opción inválida.");
         }
     }
 
@@ -107,15 +92,14 @@ public class SistemaApicola {
             0. Volver
         """);
 
-        byte opcion = scanner.nextByte();
-        scanner.nextLine();
+        byte opcion = Utils.solicitarByteEnRango("👉 Opción: ", (byte) 0, (byte) 3);
 
         switch (opcion) {
             case 1 -> editarColmena();
             case 2 -> editarApicultor();
             case 3 -> editarAbejaReina();
             case 0 -> System.out.println("↩ Volviendo...");
-            default -> System.out.println("Opción inválida.");
+            default -> System.out.println("❌ Opción inválida.");
         }
     }
 
@@ -282,10 +266,9 @@ public class SistemaApicola {
             3. Abeja Reina por estado de salud
             0. Volver
         """);
-    
-        byte opcion = scanner.nextByte();
-        scanner.nextLine();
-    
+
+        byte opcion = Utils.solicitarByteEnRango("👉 Opción: ", (byte) 0, (byte) 3);
+
         switch (opcion) {
             case 1 -> {
                 String id = solicitarInput("Ingrese el ID de la colmena: ");
@@ -302,8 +285,8 @@ public class SistemaApicola {
                 datos.apicultores.stream()
                         .filter(a -> a.getNombre().toLowerCase().contains(termino) || a.getIdentificacion().equalsIgnoreCase(termino))
                         .forEachOrElse(
-                            a -> System.out.println("🔍 " + a),
-                            () -> System.out.println("❌ No se encontraron apicultores.")
+                                a -> System.out.println("🔍 " + a),
+                                () -> System.out.println("❌ No se encontraron apicultores.")
                         );
             }
             case 3 -> {
@@ -311,8 +294,8 @@ public class SistemaApicola {
                 abejasExistentes.stream()
                         .filter(r -> r.getEstadoSalud().toLowerCase().contains(salud))
                         .forEachOrElse(
-                            r -> System.out.println("👑 " + r),
-                            () -> System.out.println("❌ No se encontraron abejas reinas.")
+                                r -> System.out.println("👑 " + r),
+                                () -> System.out.println("❌ No se encontraron abejas reinas.")
                         );
             }
             case 0 -> System.out.println("↩ Volviendo...");
@@ -320,6 +303,45 @@ public class SistemaApicola {
         }
     }
 
+    public static void generarInformesConLambda() {
+        System.out.println("""
+            ¿Qué informe desea generar?
+            1. Colmenas con alta producción de miel (>50kg)
+            2. Colmenas con estado de salud crítico
+            3. Abejas reina altamente productivas (>80 de productividad)
+            4. IDs de colmenas altamente productivas (BONUS!)
+            0. Volver
+        """);
+
+        byte opcion = Utils.solicitarByteEnRango("👉 Opción: ", (byte) 0, (byte) 4);
+
+        switch (opcion) {
+            case 1 -> datos.colmenas.stream()
+                    .filter(c -> c.getProduccionMiel() > 50)
+                    .forEach(c -> System.out.println("🍯 Alta producción: " + c));
+            case 2 -> datos.colmenas.stream()
+                    .filter(c -> c.getEstadoSalud().toLowerCase().contains("enferma"))
+                    .forEach(c -> System.out.println("🚨 Colmena crítica: " + c));
+            case 3 -> abejasExistentes.stream()
+                    .filter(r -> r.getProductividad() > 80)
+                    .forEach(r -> System.out.println("👑 Reina súper productiva: " + r));
+            case 4 -> {
+                List<String> idsColmenasProductivas = datos.colmenas.stream()
+                        .filter(c -> c.getProduccionMiel() > 50)
+                        .map(Colmena::getId)
+                        .toList();
+
+                if (idsColmenasProductivas.isEmpty()) {
+                    System.out.println("❌ No hay colmenas altamente productivas.");
+                } else {
+                    System.out.println("🔎 IDs de colmenas altamente productivas:");
+                    idsColmenasProductivas.forEach(id -> System.out.println(" - " + id));
+                }
+            }
+            case 0 -> System.out.println("↩ Volviendo...");
+            default -> System.out.println("❌ Opción inválida.");
+        }
+    }
 
     private static String solicitarEstadoSalud() {
         return Utils.solicitarCampo("Estado de salud: ");
