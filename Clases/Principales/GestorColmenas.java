@@ -29,20 +29,43 @@ public class GestorColmenas {
     }
 
     public static void registrarInspeccion() {
-        String id = Utils.solicitarCampo("Ingrese el ID de la colmena a inspeccionar: ");
-        Colmena colmena = buscarColmena(id);
+        String modo = Utils.solicitarCampo("""
+            🔍 ¿Desea inspeccionar una sola colmena o todas?
+            Escriba: 'una' o 'todas'
+            👉 """).trim().toLowerCase();
+    
+        switch (modo) {
+            case "una" -> inspeccionarUnaColmena();
+            case "todas" -> inspeccionarMultiplesColmenas();
+            default -> Utils.delayPrint("❌ Opción no válida. Intente de nuevo.", 500);
+        }
 
         if (colmena == null) {
             Utils.delayPrint("❌ No se encontró la colmena con ID " + id + ".\n", 500);
             return;
         }
-
-        Inspeccion inspeccion = Inspeccion.realizar(colmena, "manual");
-        colmena.agregarInspeccion(inspeccion);
-
-        Utils.delayPrint("✅ Inspección realizada correctamente para la colmena ID: " + id, 500);
-        inspeccion.resumen(colmena);
     }
+
+    private static void inspeccionarUnaColmena() {
+        String id = Utils.solicitarCampo("Ingrese el ID de la colmena a inspeccionar: ");
+        Colmena colmena = buscarColmena(id);
+    
+        if (colmena == null) {
+            Utils.delayPrint("❌ No se encontró la colmena con ID " + id + ".\n", 500);
+            return;
+        }
+    
+        Inspeccion.inspeccionarYGuardar(colmena, "manual");
+        Utils.delayPrint("✅ Inspección realizada correctamente para la colmena ID: " + id, 500);
+    }
+
+    }
+
+    private static void inspeccionarMultiplesColmenas() {
+        Inspeccion.inspeccionarTodasColmenasConHilos();
+    }
+
+
 
     public static DatosApicola getDatosApicola() {
         return datosApicola;
