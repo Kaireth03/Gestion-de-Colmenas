@@ -1,4 +1,4 @@
-![HiveMaster 3000](https://github.com/AdrianAAsoft/Gestion-de-Colmenas/main/assets/hivemaster-banner.svg)
+![HiveMaster 3000](assets/hivemaster-banner.svg)
 
 # 🍯 HiveMaster 3000™ — Sistema de Gestión de Colmenas para Apicultores
 
