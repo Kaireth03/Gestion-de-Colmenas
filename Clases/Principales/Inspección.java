@@ -2,64 +2,98 @@ package Clases.Principales;
 
 import java.io.Serializable;
 import java.util.*;
+import Clases.Principales.util; // tu clase de utilidades
 
 public class Inspección implements Serializable {
-    public Date fecha;
-    public String resultado;
-    public String acciones;
+    private static final long serialVersionUID = 1L;
+
+    private Date fecha;
+    private String resultado;
+    private String acciones;
 
     public Inspección(String resultado, String acciones) {
-        this.fecha = new Date();
+        this.fecha = new Date(); // Fecha actual al crear la inspección
         this.resultado = resultado;
         this.acciones = acciones;
     }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public String getResultado() {
+        return resultado;
+    }
+
+    public String getAcciones() {
+        return acciones;
+    }
+
+    /**
+     * Realiza una inspección a todas las colmenas en la lista.
+     * Evalúa su estado y agrega un informe de inspección correspondiente.
+     */
     public static void inspeccionarColmenas(List<Colmena> colmenas) {
         if (colmenas.isEmpty()) {
-            system.out.println(" No hay colmenas para inspeccionar.\n", 50);
+            System.out.println("No hay colmenas para inspeccionar.\n");
             return;
         }
 
         List<String> reportes = Collections.synchronizedList(new ArrayList<>());
+        List<Thread> hilos = new ArrayList<>();
 
         for (Colmena colmena : colmenas) {
-            new Thread(() -> {
+            Thread hilo = new Thread(() -> {
                 try {
-                    system.out.println(" Inspeccionando colmena " + colmena.id + "...\n", 40);
-                    Thread.sleep(new Random().nextInt(800) + 400);
+                    System.out.println("🔍 Inspeccionando colmena " + colmena.getId() + "...");
+                    Thread.sleep(new Random().nextInt(800) + 400); // Simulación de tiempo de inspección
 
                     int puntos = 0;
-                    if (colmena.abejaReina != null && "Buena".equals(colmena.abejaReina.estadoSalud)) puntos += 2;
-                    puntos += switch (colmena.estadoSalud) {
+                    if (colmena.getAbejaReina() != null && "Buena".equalsIgnoreCase(colmena.getAbejaReina().getEstadoSalud())) {
+                        puntos += 2;
+                    }
+
+                    puntos += switch (colmena.getEstadoSalud()) {
                         case "Buena" -> 2;
                         case "Regular" -> 1;
                         default -> 0;
                     };
 
                     String resultado = switch (puntos) {
-                        case 3, 4 -> "✅ Buen estado";
-                        case 2 -> "⚠️ Revisar pronto";
-                        default -> "🚨 Atención urgente";
+                        case 3, 4 -> "Buen estado";
+                        case 2 -> "Revisar pronto";
+                        default -> "Atención urgente";
                     };
 
                     String acciones = switch (resultado) {
-                        case " Buen estado" -> "Revisar en 6 meses";
-                        case " Revisar pronto" -> "Revisar en 1 mes";
+                        case "Buen estado" -> "Revisar en 6 meses";
+                        case "Revisar pronto" -> "Revisar en 1 mes";
                         default -> "Intervención inmediata";
                     };
 
-                    colmena.agregarInspeccion(new Inspección(resultado, acciones));
-                    reportes.add(" Colmena " + colmena.id + ": " + resultado);
+                    Inspección nuevaInspeccion = new Inspección(resultado, acciones);
+                    colmena.agregarInspeccion(nuevaInspeccion);
+                    reportes.add("📄 Colmena " + colmena.getId() + ": " + resultado + " - " + acciones);
 
                 } catch (InterruptedException e) {
-                    reportes.add(" Error inspeccionando colmena " + colmena.id);
+                    reportes.add("❌ Error inspeccionando colmena " + colmena.getId());
                 }
-            }).start();
+            });
+
+            hilo.start();
+            hilos.add(hilo);
         }
 
-        try { Thread.sleep(2500); } catch (InterruptedException ignored) {}
+        // Esperamos a que todos los hilos terminen
+        for (Thread hilo : hilos) {
+            try {
+                hilo.join();
+            } catch (InterruptedException ignored) {}
+        }
 
-        reportes.forEach(r -> system.out.println(r + "\n", 30));
-        animacionAbejas();
+        // Mostramos resultados
+        System.out.println("\nRESULTADOS DE INSPECCIÓN:");
+        reportes.forEach(System.out::println);
+        System.out.println("\nAnimación de abejas 🐝 (simulada)\n");
     }
 }
