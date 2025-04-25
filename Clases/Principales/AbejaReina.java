@@ -1,26 +1,34 @@
 package Clases.Principales;
 
+import java.util.List;
+
 public class AbejaReina {
+    public static final List<String> ESTADOS_SALUD_VALIDOS = List.of(
+            "En plenitud",
+            "Zumbido estable",
+            "Enferma"
+    );
 
-    // Atributos privados: solo accesibles desde dentro de la clase
-    private String estadoSalud;      
-    private int edad;                
-    private double productividad;    
+    private final String estadoSalud;
+    private final byte edad;
+    private final float productividad;
 
-    // Constructor de la clase: se ejecuta al crear una nueva AbejaReina
-    public AbejaReina(String estadoSalud, int edad, double productividad) {
-        this.estadoSalud = estadoSalud;         
-        this.edad = edad;                       
-        this.productividad = productividad;     
+    public AbejaReina(String estadoSalud, byte edad, float productividad) {
+        this.productividad = productividad;
+        this.edad = edad;
+        this.estadoSalud = estadoSalud;
     }
-    
-    // Devuelve toda la información de la abeja reina
-    public String obtenerEstado() {
-        return String.format("""
-            👑 Abeja Reina:
-            🩺 Salud: %s
-            🕰️ Edad: %d años
-            🍯 Productividad: %.2f kg de miel
-            """, estadoSalud, edad, productividad);
+
+    public String getEstadoSalud() {
+        return estadoSalud;
+    }
+
+    @Override
+    public String toString() {
+        return "🐝 Abeja Reina {" +
+                "Productividad = '" + productividad + '\'' +
+                ", Edad = " + edad +
+                ", Estado de Salud = '" + estadoSalud + '\'' +
+                '}';
     }
 }
