@@ -10,52 +10,52 @@ public class SistemaApicola {
 
     public static void registrarApicultor() {
         try {
-            String nombre = Utils.solicitarCampo(Utils.gray("Ingrese el nombre del apicultor: "));
-            String telefono = Utils.solicitarCampo(Utils.gray("Ingrese el teléfono del apicultor: "));
+            String nombre = Utils.solicitarCampo("Ingrese el nombre del apicultor: ");
+            String telefono = Utils.solicitarCampo("Ingrese el teléfono del apicultor: ");
             byte edad = solicitarEdad();
             byte experiencia = solicitarExperiencia(edad);
-            String direccion = Utils.solicitarCampo(Utils.gray("Ingrese la dirección del apicultor: "));
-            String id = Utils.solicitarCampo(Utils.gray("Ingrese la identificación (DNI/ID/Cédula): "));
+            String direccion = Utils.solicitarCampo("Ingrese la dirección del apicultor: ");
+            String id = Utils.solicitarCampo("Ingrese la identificación (DNI/ID/Cédula): ");
 
             datos.agregarApicultor(new Apicultor(nombre, telefono, edad, experiencia, direccion, id));
-            Utils.delayPrint(Utils.yellow("✅ Apicultor registrado correctamente."), 700);
+            Utils.delayPrint("✅ Apicultor registrado correctamente.", 700);
         } catch (Exception e) {
-            Utils.delayPrint(Utils.yellow("❌ Error: " + e.getMessage()), 700);
+            Utils.delayPrint("❌ Error: " + e.getMessage(), 700);
         }
     }
 
     public static void asignarAbejaReina() {
-        byte edad = Utils.solicitarByteEnRango(Utils.gray("Edad: "), (byte) 0, (byte) 5);
+        byte edad = Utils.solicitarByteEnRango("Edad: ", (byte) 0, (byte) 5);
         String salud = solicitarEstadoSaludReina();
-        float productividad = Utils.solicitarFloatMin(Utils.gray("Productividad: "), 0);
+        float productividad = Utils.solicitarFloatMin("Productividad: ", 0);
 
         AbejaReina reina = new AbejaReina(salud, edad, productividad);
         abejasExistentes.add(reina);
 
         mostrarColmenas();
-        String idColmena = solicitarInput(Utils.gray("ID de la colmena para asignar la reina: "));
+        String idColmena = solicitarInput("ID de la colmena para asignar la reina: ");
 
         if (colmenasConAbejaReina.containsKey(idColmena)) {
-            System.out.println(Utils.yellow("❌ Esa colmena ya tiene una abeja reina."));
+            System.out.println("❌ Esa colmena ya tiene una abeja reina.");
             return;
         }
 
         colmenasConAbejaReina.put(idColmena, reina);
-        Utils.delayPrint(Utils.yellow("✅ Abeja reina asignada correctamente."), 700);
+        Utils.delayPrint("✅ Abeja reina asignada correctamente.", 700);
     }
 
     public static void mostrarInformacion() {
-        System.out.println(Utils.black("""
-            📋 ¿Qué desea ver?
+        System.out.println("""
+            ¿Qué desea ver?
             1. Colmenas registradas
             2. Apicultores
             3. Abejas reinas
             4. Historial de inspección
             5. Buscar información
             0. Volver
-        """));
+        """);
 
-        byte opcion = Utils.solicitarByteEnRango(Utils.gray("👉 Opción: "), (byte) 0, (byte) 5);
+        byte opcion = Utils.solicitarByteEnRango("👉 Opción: ", (byte) 0, (byte) 5);
 
         switch (opcion) {
             case 1 -> mostrarColmenas();
@@ -63,43 +63,43 @@ public class SistemaApicola {
             case 3 -> mostrarLista(abejasExistentes);
             case 4 -> mostrarHistorialInspeccion();
             case 5 -> buscarElemento();
-            case 0 -> System.out.println(Utils.gray("↩ Volviendo..."));
-            default -> System.out.println(Utils.yellow("❌ Opción inválida."));
+            case 0 -> System.out.println("↩ Volviendo...");
+            default -> System.out.println("❌ Opción inválida.");
         }
     }
 
     public static void asignarApicultorAColmena() {
         mostrarColmenas();
-        String colmenaId = solicitarInput(Utils.gray("ID de la colmena para asignar el apicultor: "));
+        String colmenaId = solicitarInput("ID de la colmena para asignar el apicultor: ");
         mostrarLista(datos.apicultores);
 
-        int i = Integer.parseInt(solicitarInput(Utils.gray("Índice del apicultor a asignar: "))) - 1;
+        int i = Integer.parseInt(solicitarInput("Índice del apicultor a asignar: ")) - 1;
         if (i < 0 || i >= datos.apicultores.size()) {
-            System.out.println(Utils.yellow("❌ Índice inválido."));
+            System.out.println("❌ Índice inválido.");
             return;
         }
 
         datos.asignarColmenaAPicultor(colmenaId, datos.apicultores.get(i));
-        Utils.delayPrint(Utils.yellow("✅ Apicultor asignado a la colmena."), 700);
+        Utils.delayPrint("✅ Apicultor asignado a la colmena.", 700);
     }
 
     public static void editarInformacion() {
-        System.out.println(Utils.black("""
-            ✏️ ¿Qué desea editar?
+        System.out.println("""
+            ¿Qué desea editar?
             1. Colmenas
             2. Apicultores
             3. Abejas reinas
             0. Volver
-        """));
+        """);
 
-        byte opcion = Utils.solicitarByteEnRango(Utils.gray("👉 Opción: "), (byte) 0, (byte) 3);
+        byte opcion = Utils.solicitarByteEnRango("👉 Opción: ", (byte) 0, (byte) 3);
 
         switch (opcion) {
             case 1 -> editarColmena();
             case 2 -> editarApicultor();
             case 3 -> editarAbejaReina();
-            case 0 -> System.out.println(Utils.gray("↩ Volviendo..."));
-            default -> System.out.println(Utils.yellow("❌ Opción inválida."));
+            case 0 -> System.out.println("↩ Volviendo...");
+            default -> System.out.println("❌ Opción inválida.");
         }
     }
 
@@ -109,19 +109,19 @@ public class SistemaApicola {
 
     private static <T> void mostrarLista(List<T> lista) {
         for (int i = 0; i < lista.size(); i++)
-            System.out.println(Utils.gray((i + 1) + ". " + lista.get(i)));
+            System.out.println((i + 1) + ". " + lista.get(i));
     }
 
     private static void mostrarHistorialInspeccion() {
-        System.out.println(Utils.black("\n📋 HISTORIAL DE INSPECCIONES:"));
+        System.out.println("\n📋 HISTORIAL DE INSPECCIONES:");
         for (Colmena colmena : datos.obtenerColmenas()) {
             List<Inspeccion> inspecciones = colmena.getInspecciones();
             if (!inspecciones.isEmpty()) {
-                System.out.println(Utils.gray("🐝 Colmena ID: " + colmena.getId()));
+                System.out.println("🐝 Colmena ID: " + colmena.getId());
                 Inspeccion ins = inspecciones.getFirst();
-                System.out.println(Utils.gray("  📅 Fecha: " + ins.getFecha()));
-                System.out.println(Utils.gray("  📊 Resultado: " + ins.getResultado()));
-                System.out.println(Utils.gray("  🛠️ Acciones: " + ins.getAcciones()));
+                System.out.println("  📅 Fecha: " + ins.getFecha());
+                System.out.println("  📊 Resultado: " + ins.getResultado());
+                System.out.println("  🛠️ Acciones: " + ins.getAcciones());
                 System.out.println();
             }
         }
