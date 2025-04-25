@@ -45,6 +45,36 @@ public class Inspeccion implements Serializable {
         );
     }
 
+    public static void inspeccionarTodasColmenasConHilos() {
+        List<Colmena> colmenas = datos.obtenerColmenas();
+    
+        if (colmenas.isEmpty()) {
+            System.out.println("❌ No hay colmenas para inspeccionar.");
+            return;
+        }
+    
+        System.out.println("🔧 Iniciando inspecciones concurrentes...");
+    
+        List<Thread> hilos = new ArrayList<>();
+        for (Colmena colmena : colmenas) {
+            Thread hilo = new Thread(new HiloInspeccion(colmena, "Concurrente"));
+            hilos.add(hilo);
+            hilo.start();
+        }
+    
+        // Esperar que todos los hilos terminen
+        for (Thread hilo : hilos) {
+            try {
+                hilo.join();
+            } catch (InterruptedException e) {
+                System.out.println("⚠️ Un hilo fue interrumpido.");
+            }
+        }
+    
+        System.out.println("✅ Inspecciones completas.");
+    }
+
+
     public Date getFecha() {
         return fecha;
     }
@@ -85,5 +115,22 @@ public class Inspeccion implements Serializable {
             case "Revisar pronto" -> "Revisar en 1 mes";
             default -> "Intervención inmediata";
         };
+    }
+}
+
+class HiloInspeccion implements Runnable {
+    private final Colmena colmena;
+    private final String metodo;
+
+    public HiloInspeccion(Colmena colmena, String metodo) {
+        this.colmena = colmena;
+        this.metodo = metodo;
+    }
+
+    @Override
+    public void run() {
+        Inspeccion inspeccion = Inspeccion.realizar(colmena, metodo);
+        colmena.agregarInspeccion(inspeccion); // Make sure this method exists in Colmena
+        System.out.println(inspeccion.resumen(colmena));
     }
 }
