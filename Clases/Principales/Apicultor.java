@@ -57,6 +57,11 @@ public class Apicultor implements Serializable {
         return identificacion;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+
     @Override
     public String toString() {
         return " |Apicultor: " + nombre +
