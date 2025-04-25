@@ -48,7 +48,7 @@ public class PrinColmena {
     // Función que maneja la opción del menú
    public static boolean manejarOpcion(String opcion) {
         switch (opcion) {
-            case "1" -> GestorColmenas.registrarColmena(datosApicola);
+            case "1" -> GestorColmenas.registrarColmena();
             case "2" -> SistemaApicola.registrarApicultor();
             case "3" -> SistemaApicola.asignarAbejaReina();
             //case "4" -> Inspección.realizarInspeccion(); <-- Hay hacer la correcion
