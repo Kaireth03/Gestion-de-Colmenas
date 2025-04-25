@@ -23,6 +23,11 @@ public class AbejaReina {
         return estadoSalud;
     }
 
+    public float getProductividad() {
+        return productividad;
+    }
+
+
     @Override
     public String toString() {
         return "🐝 Abeja Reina {" +
