@@ -25,11 +25,19 @@ public class SistemaApicola {
     }
 
     public static void asignarAbejaReina() {
-        byte edad = Utils.solicitarByteEnRango("Edad: ", (byte) 0, (byte) 5);
+        // Solicitar ID para la nueva reina
+        String idReina = Utils.solicitarCampo("ID para la nueva Abeja Reina: ");
+        // Verificar si ya existe una reina con ese ID (opcional pero recomendado)
+        if (abejasExistentes.stream().anyMatch(r -> r.getId().equalsIgnoreCase(idReina))) {
+            System.out.println("❌ Ya existe una Abeja Reina con el ID: " + idReina);
+            return;
+        }
+        byte edad = Utils.solicitarByteEnRango("Edad (días): ", (byte) 0, (byte) (5 * 365)); // Asumiendo edad en días
         String salud = solicitarEstadoSaludReina();
         float productividad = Utils.solicitarFloatMin("Productividad: ", 0);
 
-        AbejaReina reina = new AbejaReina(salud, edad, productividad);
+        // Usar el nuevo constructor con ID
+        AbejaReina reina = new AbejaReina(idReina, salud, edad, productividad);
         abejasExistentes.add(reina);
 
         mostrarColmenas();
@@ -199,12 +207,23 @@ public class SistemaApicola {
 
     private static void editarAbejaReina() {
         mostrarLista(abejasExistentes);
-        int indiceAbejaReina = (byte) (Utils.solicitarByteEnRango("Índice de la abeja reina a editar: ", (byte) 0, (byte) datos.colmenas.size()) - 1);
+        int indiceAbejaReina = Utils.solicitarByteEnRango("Índice de la abeja reina a editar: ", (byte) 1, (byte) abejasExistentes.size()) - 1; // Ajustar rango a 1-based
 
+        // Obtener el ID de la reina existente
+        AbejaReina reinaExistente = abejasExistentes.get(indiceAbejaReina);
+        String idExistente = reinaExistente.getId();
+
+        // Solicitar nuevos datos
+        String nuevoEstadoSalud = solicitarEstadoSaludReina();
+        byte nuevaEdad = Utils.solicitarByteEnRango("Nueva Edad (días): ", (byte) 0, (byte) (5 * 365)); // Asumiendo edad en días
+        float nuevaProductividad = Utils.solicitarFloatMin("Nueva Productividad: ", 0);
+
+        // Crear la nueva instancia usando el ID existente y los nuevos datos
         abejasExistentes.set(indiceAbejaReina, new AbejaReina(
-                solicitarInput("Estado de salud: "),
-                Utils.solicitarByteEnRango("Edad: ", (byte) 0, (byte) 5),
-                Float.parseFloat(solicitarInput("Productividad: "))
+                idExistente, // Usar el ID existente
+                nuevoEstadoSalud,
+                nuevaEdad,
+                nuevaProductividad
         ));
 
         Utils.delayPrint("✅ Abeja reina editada correctamente.", 700);
