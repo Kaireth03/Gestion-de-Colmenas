@@ -1,17 +1,14 @@
 package Clases;
 import Clases.Principales.*;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.file.*;
 import com.google.gson.Gson;
 
 
 public class LeerJson {
+   public static String JsonRuta = Paths.get(System.getProperty("user.home"), "Documents", "colmenas.json").toString();
 
 public static void GuardarColmena(DatosApicola datosApicola){
-        String JsonDocumento = System.getProperty("user.home");
-        String JsonRuta = Paths.get(JsonDocumento,"Documents", "colmenas.json").toString();
-
         try{
             //Con esto manejo el Guardado de colmenas en un Json el cual puedo modificar y cargar
                 Gson Archivo = new Gson();
@@ -43,7 +40,32 @@ public static void GuardarColmena(DatosApicola datosApicola){
     }
 
     public static void Actualizar(DatosApicola datosApicola){
+        File archivo =  new File(JsonRuta);
+        try {
+            // Borro el archivo
+            if (archivo.exists()) {
+                if (!archivo.delete()) {
+                    System.out.println("⚠️ No se pudo borrar el archivo anterior");
+                    return;
+                } else {
+                    System.out.println("🗑️ Archivo anterior eliminado correctamente.");
+                }
+            }
 
+            //Esta parte ya es la misma que guardar, podria llamar el metodo y listo
+            // pero agregar codigo innecesario es el futuro
+            Gson gson = new Gson();
+            String json = gson.toJson(datosApicola);
+
+            try (FileWriter writer = new FileWriter(archivo)) {
+                writer.write(json);
+            }
+
+            System.out.println("✅ Datos actualizados correctamente en: " + JsonRuta);
+
+        } catch (Exception e) {
+            throw new RuntimeException("❌ Error al actualizar datos: " + e.getMessage(), e);
+        }
 
     }
 }
