@@ -54,7 +54,6 @@ Este proyecto es parte de una entrega grupal individual del salón, porque... s�
 
 ![flow](https://github.com/user-attachments/assets/0e45064c-352f-4790-a118-251e2351af6a)
 
-
 ---
 
 ## 🚀 Ejecución
@@ -74,6 +73,8 @@ java PrinColmena
     Terminal o consola
 
 ## 🔍 Ejemplos de Uso
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=ZuluRL1uS9s)
 
 > Listar colmenas
 ID: COL001 | Ubicación: Zona Norte | Salud: Buena | Miel: 12.3L
