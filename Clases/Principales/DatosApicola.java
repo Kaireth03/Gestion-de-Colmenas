@@ -1,15 +1,61 @@
 package Clases.Principales;
 
+// ─────────────────────────────────────────────────────────────
+// Imports
+// ─────────────────────────────────────────────────────────────
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+// ─────────────────────────────────────────────────────────────
+// Clase principal
+// ─────────────────────────────────────────────────────────────
 public class DatosApicola implements Serializable {
+
+    // ─────────────────────────────────────────────────────────────
+    // Constantes
+    // ─────────────────────────────────────────────────────────────
+
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;   // Identificador único de serialización
 
-    private static DatosApicola instancia;
+    // ─────────────────────────────────────────────────────────────
+    // Variables de instancia
+    // ─────────────────────────────────────────────────────────────
 
+    private static DatosApicola instancia;             // Instancia única (Singleton)
+
+    public final List<Colmena> colmenas;                // Lista de colmenas
+    public final List<Apicultor> apicultores;           // Lista de apicultores
+    public final Map<String, Apicultor> asignaciones;   // Asignaciones de colmenas a apicultores
+
+    // ─────────────────────────────────────────────────────────────
+    // Constructores
+    // ─────────────────────────────────────────────────────────────
+
+    // Constructor privado del Singleton
+    public DatosApicola() {
+        this(null, null, null);
+    }
+
+    // Constructor general, permite inicializar con datos existentes
+    public DatosApicola(List<Colmena> colmenas, List<Apicultor> apicultores, Map<String, Apicultor> asignaciones) {
+        this.colmenas = (colmenas != null) ? colmenas : new ArrayList<>();
+        this.apicultores = (apicultores != null) ? apicultores : new ArrayList<>();
+        this.asignaciones = (asignaciones != null) ? asignaciones : new HashMap<>();
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Métodos de Singleton
+    // ─────────────────────────────────────────────────────────────
+
+    /**
+     * Obtiene la instancia única de DatosApicola (patrón Singleton).
+     * Si no existe, la crea.
+     */
     public static DatosApicola getInstancia() {
         if (instancia == null) {
             instancia = new DatosApicola();
@@ -17,22 +63,14 @@ public class DatosApicola implements Serializable {
         return instancia;
     }
 
-    public final List<Colmena> colmenas;
-    public final List<Apicultor> apicultores;
-    public final Map<String, Apicultor> asignaciones;
-
-    public DatosApicola() {
-        this(null, null, null);
-    }
-
-    public DatosApicola(List<Colmena> colmenas, List<Apicultor> apicultores, Map<String, Apicultor> asignaciones) {
-        this.colmenas = colmenas != null ? colmenas : new ArrayList<>();
-        this.apicultores = apicultores != null ? apicultores : new ArrayList<>();
-        this.asignaciones = asignaciones != null ? asignaciones : new HashMap<>();
-    }
+    // ─────────────────────────────────────────────────────────────
+    // Métodos para manipular Colmenas
+    // ─────────────────────────────────────────────────────────────
 
     public void agregarColmena(Colmena colmena) {
-        if (colmena == null) throw new IllegalArgumentException("Colmena no puede ser nula.");
+        if (colmena == null) {
+            throw new IllegalArgumentException("Colmena no puede ser nula.");
+        }
         colmenas.add(colmena);
     }
 
@@ -46,10 +84,20 @@ public class DatosApicola implements Serializable {
         colmenas.add(colmenaActualizada);
     }
 
+    // ─────────────────────────────────────────────────────────────
+    // Métodos para manipular Apicultores
+    // ─────────────────────────────────────────────────────────────
+
     public void agregarApicultor(Apicultor apicultor) {
-        if (apicultor == null) throw new IllegalArgumentException("Apicultor no puede ser nulo.");
+        if (apicultor == null) {
+            throw new IllegalArgumentException("Apicultor no puede ser nulo.");
+        }
         apicultores.add(apicultor);
     }
+
+    // ─────────────────────────────────────────────────────────────
+    // Métodos para asignar/desasignar Colmenas a Apicultores
+    // ─────────────────────────────────────────────────────────────
 
     public void asignarColmenaAPicultor(String idColmena, Apicultor apicultor) {
         if (idColmena == null || idColmena.trim().isEmpty() || apicultor == null) {
@@ -69,6 +117,10 @@ public class DatosApicola implements Serializable {
         return asignaciones.get(idColmena);
     }
 
+    // ─────────────────────────────────────────────────────────────
+    // Métodos para obtener datos
+    // ─────────────────────────────────────────────────────────────
+
     public List<Colmena> obtenerColmenas() {
         return colmenas;
     }
@@ -80,6 +132,10 @@ public class DatosApicola implements Serializable {
     public Map<String, Apicultor> obtenerAsignaciones() {
         return asignaciones;
     }
+
+    // ─────────────────────────────────────────────────────────────
+    // Representación en texto
+    // ─────────────────────────────────────────────────────────────
 
     @Override
     public String toString() {
