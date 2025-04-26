@@ -70,7 +70,7 @@ public class SistemaApicola {
         // Captura datos adicionales de la nueva abeja reina
         byte edad = Utils.solicitarByteEnRango("Edad (días): ", (byte) 0, (byte) (5 * 365));
         String salud = solicitarEstadoSaludReina();
-        float productividad = Utils.solicitarFloatMin("Productividad: ", 0);
+        float productividad = Utils.solicitarFloatRango("Productividad de la abeja reina (0 a 10): ", 0f, 10f);
 
         // Crea y agrega la nueva abeja reina
         AbejaReina reina = new AbejaReina(idReina, salud, edad, productividad);
@@ -274,8 +274,6 @@ public class SistemaApicola {
                 (byte) 0, maxIndice
         );
 
-        Apicultor apicultor = datos.apicultores.get(indiceApicultor);
-
         String id = Utils.solicitarIdentificacion();
         if (!id.equals(datos.apicultores.get(indiceApicultor).getIdentificacion()) && existeIdentificacion(id)) {
             System.out.println("❌ Ya existe un apicultor con esa identificación.");
@@ -311,14 +309,12 @@ public class SistemaApicola {
                 (byte) 0, maxIndice
         );
 
-        AbejaReina reina = abejasExistentes.get(indiceAbejaReina);
-
         AbejaReina reinaExistente = abejasExistentes.get(indiceAbejaReina);
         String idExistente = reinaExistente.getId();
 
         String nuevoEstadoSalud = solicitarEstadoSaludReina();
         byte nuevaEdad = Utils.solicitarByteEnRango("Nueva Edad (días): ", (byte) 0, (byte) (5 * 365));
-        float nuevaProductividad = Utils.solicitarFloatMin("Nueva Productividad: ", 0);
+        float nuevaProductividad = Utils.solicitarFloatRango("Nueva Productividad: ", 0f, 1000f);
 
         abejasExistentes.set(indiceAbejaReina, new AbejaReina(
                 idExistente,
