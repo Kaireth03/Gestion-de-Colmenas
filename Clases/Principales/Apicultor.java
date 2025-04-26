@@ -33,7 +33,7 @@ public class Apicultor implements Serializable {
         else throw new IllegalArgumentException("Teléfono inválido.");
     }
 
-    public void setEdad(byte edad) {
+   public void setEdad(byte edad) {
         if (edad >= 18 && edad <= 100) this.edad = edad;
         else throw new IllegalArgumentException("Edad inválida.");
     }
