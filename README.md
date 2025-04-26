@@ -74,8 +74,6 @@ java PrinColmena
 
 ## 🔍 Ejemplos de Uso
 
-[!(https://www.youtube.com/watch?v=ZuluRL1uS9s)
-
 > Listar colmenas
 ID: COL001 | Ubicación: Zona Norte | Salud: Buena | Miel: 12.3L
 
