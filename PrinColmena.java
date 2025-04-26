@@ -50,7 +50,15 @@ public class PrinColmena {
             case "7" -> { SistemaApicola.editarInformacion(); yield true; }
             case "8" -> {
                 // Guardar los datos al salir
-                //LeerJson.Guardar(datosApicola); // Guardar la información
+                 String ruta = Paths.get(System.getProperty("user.home"), "Documents", "colmena.json").toString();
+                File Json = new File(ruta);
+                if(Json.exists()){
+                            System.out.print("📜 El archivo ya existe. Reescribiendo datos ");
+                }else{
+                    GuardarColmena(datosApicola);
+                }
+                yield false; // Finalizar el ciclo y salir del programa
+            }
                 yield false; // Finalizar el ciclo y salir del programa
             }
             default -> {
