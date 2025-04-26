@@ -5,7 +5,6 @@ import java.util.List;
 
 public class GestorColmenas {
     private static final List<Colmena> colmenas = new ArrayList<>();
-    private static final DatosApicola datosApicola = new DatosApicola();
 
     public static void registrarColmena() {
         Utils.delayPrint("\n🐝 REGISTRO DE NUEVA COLMENA", 500);
@@ -19,7 +18,8 @@ public class GestorColmenas {
             float produccionMiel = Utils.solicitarFloatMin("Producción estimada de miel (kg): ", 0f);
 
             Colmena nuevaColmena = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
-            datosApicola.agregarColmena(nuevaColmena);
+
+            DatosApicola.getInstancia().agregarColmena(nuevaColmena);
             colmenas.add(nuevaColmena);
 
             Utils.delayPrint("✅ Colmena registrada correctamente.", 500);
@@ -58,10 +58,6 @@ public class GestorColmenas {
         Inspeccion.inspeccionarTodasColmenasConHilos();
     }
 
-    public static DatosApicola getDatosApicola() {
-        return datosApicola;
-    }
-
     private static String solicitarEstadoSalud() {
         final String mensaje = """
         Estado de Salud:
@@ -88,7 +84,7 @@ public class GestorColmenas {
                 continue;
             }
 
-            if (Utils.idExiste(colmenas, id)) {
+            if (Utils.idExiste(DatosApicola.getInstancia().obtenerColmenas(), id)) {
                 Utils.delayPrint("❌ El ID " + id + " ya está registrado.\n", 500);
                 continue;
             }
@@ -98,7 +94,7 @@ public class GestorColmenas {
     }
 
     private static Colmena buscarColmena(String id) {
-        return colmenas.stream()
+        return DatosApicola.getInstancia().obtenerColmenas().stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst()
                 .orElse(null);
