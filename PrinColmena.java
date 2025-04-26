@@ -6,7 +6,7 @@ import java.nio.file.*;
 
 
 public class PrinColmena {
-    static final DatosApicola datosApicola = new DatosApicola();
+    static final DatosApicola datosApicola = DatosApicola.getInstancia();
     static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -56,7 +56,7 @@ public class PrinColmena {
 
                 // Guardar los datos al salir
 
-                String ruta = Paths.get(System.getProperty("user.home"), "Documents", "colmena.json").toString();
+                String ruta = Paths.get(System.getProperty("user.home"), "Documents", "colmenas.json").toString();
                 File Json = new File(ruta);
                 if(Json.exists()){
                     System.out.print("📜 El archivo ya existe. Reescribiendo datos ");

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GestorColmenas {
-    private static final List<Colmena> colmenas = new ArrayList<>();
 
     public static void registrarColmena() {
         Utils.delayPrint("\n🐝 REGISTRO DE NUEVA COLMENA", 500);
@@ -20,7 +19,6 @@ public class GestorColmenas {
             Colmena nuevaColmena = new Colmena(id, ubicacion, tipo, estadoSalud, cantidadAbejas, produccionMiel);
 
             DatosApicola.getInstancia().agregarColmena(nuevaColmena);
-            colmenas.add(nuevaColmena);
 
             Utils.delayPrint("✅ Colmena registrada correctamente.", 500);
         } catch (Exception e) {
