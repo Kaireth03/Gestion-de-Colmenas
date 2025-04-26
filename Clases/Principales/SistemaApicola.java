@@ -52,10 +52,11 @@ public class SistemaApicola {
             3. Abejas reinas
             4. Historial de inspección
             5. Buscar información
+            6. Generar Informes Con Lambda
             0. Volver
         """);
 
-        byte opcion = Utils.solicitarByteEnRango("👉 Opción: ", (byte) 0, (byte) 5);
+        byte opcion = Utils.solicitarByteEnRango("👉 Opción: ", (byte) 0, (byte) 6);
 
         switch (opcion) {
             case 1 -> mostrarColmenas();
@@ -63,6 +64,7 @@ public class SistemaApicola {
             case 3 -> mostrarLista(abejasExistentes);
             case 4 -> mostrarHistorialInspeccion();
             case 5 -> buscarElemento();
+            case 6 -> generarInformesConLambda();
             case 0 -> System.out.println("↩ Volviendo...");
             default -> System.out.println("❌ Opción inválida.");
         }
@@ -282,19 +284,27 @@ public class SistemaApicola {
             }
             case 2 -> {
                 String termino = solicitarInput("Ingrese el nombre o ID del apicultor: ").toLowerCase();
-                datos.apicultores.stream()
+                var resultados = datos.apicultores.stream()
                         .filter(a -> a.getNombre().toLowerCase().contains(termino) || a.getIdentificacion().equalsIgnoreCase(termino))
-                        .forEachOrElse(
-                                a -> System.out.println("🔍 " + a),
+                        .toList(); // Coleta resultados
+
+                Optional.of(resultados)
+                        .filter(list -> !list.isEmpty())
+                        .ifPresentOrElse(
+                                list -> list.forEach(a -> System.out.println("🔍 " + a)),
                                 () -> System.out.println("❌ No se encontraron apicultores.")
                         );
             }
             case 3 -> {
                 String salud = solicitarInput("Ingrese el estado de salud de la abeja reina: ").toLowerCase();
-                abejasExistentes.stream()
+                var resultados = abejasExistentes.stream()
                         .filter(r -> r.getEstadoSalud().toLowerCase().contains(salud))
-                        .forEachOrElse(
-                                r -> System.out.println("👑 " + r),
+                        .toList();
+
+                Optional.of(resultados)
+                        .filter(list -> !list.isEmpty())
+                        .ifPresentOrElse(
+                                list -> list.forEach(r -> System.out.println("👑 " + r)),
                                 () -> System.out.println("❌ No se encontraron abejas reinas.")
                         );
             }
@@ -309,7 +319,7 @@ public class SistemaApicola {
             1. Colmenas con alta producción de miel (>50kg)
             2. Colmenas con estado de salud crítico
             3. Abejas reina altamente productivas (>80 de productividad)
-            4. IDs de colmenas altamente productivas (BONUS!)
+            4. IDs de colmenas altamente productivas (>50) -> Solo retorna el ID
             0. Volver
         """);
 
