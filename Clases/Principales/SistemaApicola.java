@@ -6,7 +6,7 @@ public class SistemaApicola {
     private static final Scanner scanner = new Scanner(System.in);
     public static final List<AbejaReina> abejasExistentes = new ArrayList<>();
     public static final Map<String, AbejaReina> colmenasConAbejaReina = new HashMap<>();
-    private static final DatosApicola datos = GestorColmenas.getDatosApicola();
+    private static final DatosApicola datos = DatosApicola.getInstancia();
 
     public static void registrarApicultor() {
         try {
@@ -107,6 +107,7 @@ public class SistemaApicola {
 
     private static void mostrarColmenas() {
         mostrarLista(datos.colmenas);
+        Utils.delayPrint("Lista de colmenas", 5000);
     }
 
     private static <T> void mostrarLista(List<T> lista) {
