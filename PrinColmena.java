@@ -1,14 +1,26 @@
+// ─────────────────────────────────────────────────────────────
+// Imports
+// ─────────────────────────────────────────────────────────────
 import java.util.Scanner;
 import Clases.LeerJson;
 import Clases.Principales.*;
 import java.io.*;
 import java.nio.file.*;
 
-
+// ─────────────────────────────────────────────────────────────
+// Clase principal: PrinColmena (Main)
+// ─────────────────────────────────────────────────────────────
 public class PrinColmena {
+
+    // ─────────────────────────────────────────────────────────────
+    // Atributos estáticos
+    // ─────────────────────────────────────────────────────────────
     static final DatosApicola datosApicola = DatosApicola.getInstancia();
     static final Scanner scanner = new Scanner(System.in);
 
+    // ─────────────────────────────────────────────────────────────
+    // Método principal
+    // ─────────────────────────────────────────────────────────────
     public static void main(String[] args) {
         try {
             boolean continuar = true;
@@ -16,12 +28,18 @@ public class PrinColmena {
                 mostrarMenu();
                 continuar = manejarOpcion(scanner.nextLine());
             }
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    // ─────────────────────────────────────────────────────────────
+    // Métodos auxiliares
+    // ─────────────────────────────────────────────────────────────
+
+    /**
+     * Muestra el menú principal del sistema.
+     */
     public static void mostrarMenu() {
         System.out.println("""
         ╔═════════════════════════════════════════════════════════════╗
@@ -30,18 +48,24 @@ public class PrinColmena {
         ╚═════════════════════════════════════════════════════════════╝
 
         1️👥  Registrar nueva Colmena
-        2️‍🆕  Registrar nuevo Apicultor
+        2️🆕  Registrar nuevo Apicultor
         3️👑  Asignar Abeja Reina a una Colmena
         4️👀  Realizar Inspección a Colmena
         5️📝  Mostrar Información Registrada
         6️🧑🏻‍🌾  Asignar Apicultor a Colmena
         7️📩  Editar Información Existente
-        8🐝  Cargar Datos Colmena
-        9🔚  Salir del Sistema
+        8️🐝  Cargar Datos Colmena
+        9️🔚  Salir del Sistema
         """);
         System.out.print("📜 Indica tu próximo movimiento: ");
     }
 
+    /**
+     * Maneja la opción seleccionada por el usuario en el menú.
+     *
+     * @param opcion opción ingresada
+     * @return true para continuar, false para salir
+     */
     public static boolean manejarOpcion(String opcion) {
         return switch (opcion) {
             case "1" -> { GestorColmenas.registrarColmena(); yield true; }
@@ -53,24 +77,30 @@ public class PrinColmena {
             case "7" -> { SistemaApicola.editarInformacion(); yield true; }
             case "8" -> { LeerJson.CargarColmena(); yield true; }
             case "9" -> {
-
-                // Guardar los datos al salir
-
-                String ruta = Paths.get(System.getProperty("user.home"), "Documents", "colmenas.json").toString();
-                File Json = new File(ruta);
-                if(Json.exists()){
-                    System.out.print("📜 El archivo ya existe. Reescribiendo datos ");
-                    LeerJson.Actualizar(datosApicola);
-                }else{
-                    LeerJson.GuardarColmena(datosApicola);
-                }
-                yield false; // Finalizar el ciclo y salir del programa
+                manejarSalida();
+                yield false;
             }
-
             default -> {
                 System.out.println("⚠️ Opción no válida. Intenta nuevamente.");
                 yield true;
             }
         };
+    }
+
+    /**
+     * Gestiona las acciones de guardado de datos al salir del sistema.
+     */
+    private static void manejarSalida() {
+        String ruta = Paths.get(System.getProperty("user.home"), "Documents", "colmenas.json").toString();
+        File json = new File(ruta);
+
+        if (json.exists()) {
+            System.out.print("📜 El archivo ya existe. Reescribiendo datos... ");
+            LeerJson.Actualizar(datosApicola);
+        } else {
+            System.out.print("📄 Guardando nueva base de datos de colmenas... ");
+            LeerJson.GuardarColmena(datosApicola);
+        }
+        System.out.println("✅ ¡Datos guardados exitosamente!");
     }
 }
