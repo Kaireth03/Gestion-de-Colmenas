@@ -31,7 +31,7 @@ public class Apicultor implements Serializable {
     public void setTelefono(String telefono) {
         if (telefono.matches("^\\+?\\d{8,15}$")) this.telefono = telefono;
         else throw new IllegalArgumentException("Teléfono inválido.");
-    }
+    }
 
     public void setEdad(byte edad) {
         if (edad >= 18 && edad <= 100) this.edad = edad;
