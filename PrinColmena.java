@@ -1,6 +1,9 @@
 import java.util.Scanner;
-//import Clases.LeerJson;
+import Clases.LeerJson;
 import Clases.Principales.*;
+import java.io.*;
+import java.nio.file.*;
+
 
 public class PrinColmena {
     static final DatosApicola datosApicola = new DatosApicola();
@@ -14,7 +17,6 @@ public class PrinColmena {
                 continuar = manejarOpcion(scanner.nextLine());
             }
 
-            // LeerJson.Guardar(Colmenas);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -50,17 +52,18 @@ public class PrinColmena {
             case "7" -> { SistemaApicola.editarInformacion(); yield true; }
             case "8" -> {
                 // Guardar los datos al salir
-                 String ruta = Paths.get(System.getProperty("user.home"), "Documents", "colmena.json").toString();
+
+                String ruta = Paths.get(System.getProperty("user.home"), "Documents", "colmena.json").toString();
                 File Json = new File(ruta);
                 if(Json.exists()){
                             System.out.print("📜 El archivo ya existe. Reescribiendo datos ");
+                            LeerJson.Actualizar(datosApicola);
                 }else{
-                    GuardarColmena(datosApicola);
+                    LeerJson.GuardarColmena(datosApicola);
                 }
                 yield false; // Finalizar el ciclo y salir del programa
             }
-                yield false; // Finalizar el ciclo y salir del programa
-            }
+
             default -> {
                 System.out.println("⚠️ Opción no válida. Intenta nuevamente.");
                 yield true;
