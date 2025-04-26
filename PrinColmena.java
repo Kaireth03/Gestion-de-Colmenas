@@ -28,7 +28,7 @@ public class PrinColmena {
             🌼🐝  BIENVENIDO AL SISTEMA DE GESTIÓN APÍCOLA  🐝🌼
                      ¡Administra & Registra tus colmenas! 🍯
         ╚═════════════════════════════════════════════════════════════╝
-       
+
         1️👥  Registrar nueva Colmena
         2️‍🆕  Registrar nuevo Apicultor
         3️👑  Asignar Abeja Reina a una Colmena
@@ -36,7 +36,8 @@ public class PrinColmena {
         5️📝  Mostrar Información Registrada
         6️🧑🏻‍🌾  Asignar Apicultor a Colmena
         7️📩  Editar Información Existente
-        8️🔚  Salir del Sistema
+        8🐝  Cargar Datos Colmena
+        9🔚  Salir del Sistema
         """);
         System.out.print("📜 Indica tu próximo movimiento: ");
     }
@@ -50,14 +51,16 @@ public class PrinColmena {
             case "5" -> { SistemaApicola.mostrarInformacion(); yield true; }
             case "6" -> { SistemaApicola.asignarApicultorAColmena(); yield true; }
             case "7" -> { SistemaApicola.editarInformacion(); yield true; }
-            case "8" -> {
+            case "8" -> { LeerJson.CargarColmena(); yield true; }
+            case "9" -> {
+
                 // Guardar los datos al salir
 
                 String ruta = Paths.get(System.getProperty("user.home"), "Documents", "colmena.json").toString();
                 File Json = new File(ruta);
                 if(Json.exists()){
-                            System.out.print("📜 El archivo ya existe. Reescribiendo datos ");
-                            LeerJson.Actualizar(datosApicola);
+                    System.out.print("📜 El archivo ya existe. Reescribiendo datos ");
+                    LeerJson.Actualizar(datosApicola);
                 }else{
                     LeerJson.GuardarColmena(datosApicola);
                 }
