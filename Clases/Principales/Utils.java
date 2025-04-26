@@ -43,13 +43,13 @@ public class Utils {
         }
     }
 
-    public static float solicitarFloatMin(String mensaje, float min) {
+    public static float solicitarFloatRango(String mensaje, float min, float max) {
         while (true) {
             try {
                 String input = solicitarCampo(mensaje);
                 float valor = Float.parseFloat(input);
-                if (valor < min) {
-                    System.out.println("❌ El valor debe ser mayor o igual a " + min + ".");
+                if (valor < min || valor > max) {
+                    System.out.println("❌ El valor debe estar entre " + min + " y " + max + ".");
                     continue;
                 }
                 return valor;
