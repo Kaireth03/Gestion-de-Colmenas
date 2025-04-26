@@ -132,13 +132,9 @@ public class SistemaApicola {
 
     private static void editarColmena() {
         mostrarColmenas();
-        int i = Integer.parseInt(solicitarInput("Índice de colmena a editar: ")) - 1;
-        if (i < 0 || i >= datos.colmenas.size()) {
-            System.out.println("❌ Índice inválido.");
-            return;
-        }
+        byte indiceColmena = (byte) (Utils.solicitarByteEnRango("Índice de la colmena: ", (byte) 0, (byte) datos.colmenas.size()) - 1);
 
-        Colmena vieja = datos.colmenas.get(i);
+        Colmena vieja = datos.colmenas.get(indiceColmena);
         String idViejo = vieja.getId();
         String nuevoId = Utils.solicitarCampo("Nuevo ID: ");
         if (!nuevoId.equals(idViejo) && existeColmenaConId(nuevoId)) {
@@ -153,7 +149,7 @@ public class SistemaApicola {
                 (byte) solicitarCantidadAbejas(),
                 solicitarProduccionMiel());
 
-        datos.colmenas.set(i, nueva);
+        datos.colmenas.set(indiceColmena, nueva);
         actualizarReferenciasColmena(idViejo, nuevoId);
         Utils.delayPrint("✅ Colmena editada correctamente.", 700);
     }
@@ -177,19 +173,15 @@ public class SistemaApicola {
 
     private static void editarApicultor() {
         mostrarLista(datos.apicultores);
-        int i = Integer.parseInt(solicitarInput("Índice del apicultor a editar: ")) - 1;
-        if (i < 0 || i >= datos.apicultores.size()) {
-            System.out.println("❌ Índice inválido.");
-            return;
-        }
+        int indiceApicultor = (byte) (Utils.solicitarByteEnRango("Índice del apicultor: ", (byte) 0, (byte) datos.colmenas.size()) - 1);
 
         String id = Utils.solicitarCampo("Identificación: ");
-        if (!id.equals(datos.apicultores.get(i).getIdentificacion()) && existeIdentificacion(id)) {
+        if (!id.equals(datos.apicultores.get(indiceApicultor).getIdentificacion()) && existeIdentificacion(id)) {
             System.out.println("❌ Ya existe un apicultor con esa identificación.");
             return;
         }
 
-        datos.apicultores.set(i, new Apicultor(
+        datos.apicultores.set(indiceApicultor, new Apicultor(
                 Utils.solicitarCampo("Nombre: "),
                 Utils.solicitarCampo("Teléfono: "),
                 solicitarEdad(),
@@ -207,15 +199,11 @@ public class SistemaApicola {
 
     private static void editarAbejaReina() {
         mostrarLista(abejasExistentes);
-        int i = Integer.parseInt(solicitarInput("Índice de abeja reina a editar: ")) - 1;
-        if (i < 0 || i >= abejasExistentes.size()) {
-            System.out.println("❌ Índice inválido.");
-            return;
-        }
+        int indiceAbejaReina = (byte) (Utils.solicitarByteEnRango("Índice de la abeja reina a editar: ", (byte) 0, (byte) datos.colmenas.size()) - 1);
 
-        abejasExistentes.set(i, new AbejaReina(
+        abejasExistentes.set(indiceAbejaReina, new AbejaReina(
                 solicitarInput("Estado de salud: "),
-                Byte.parseByte(solicitarInput("Edad: ")),
+                Utils.solicitarByteEnRango("Edad: ", (byte) 0, (byte) 5),
                 Float.parseFloat(solicitarInput("Productividad: "))
         ));
 
