@@ -55,6 +55,11 @@ public class Inspeccion implements Serializable {
             return;
         }
 
+        System.out.println("💾 Sincronizando colmenas...");
+        for (Colmena colmena : colmenas) {
+            DatosApicola.getInstancia().guardarColmena(colmena);
+        }
+
         System.out.println("🔧 Iniciando inspecciones concurrentes...");
 
         List<Thread> hilos = new ArrayList<>();
@@ -74,6 +79,7 @@ public class Inspeccion implements Serializable {
 
         System.out.println("✅ Inspecciones completas.");
     }
+
 
     public static void inspeccionarYGuardar(Colmena colmena, String metodo) {
         Inspeccion inspeccion = realizar(colmena, metodo);
