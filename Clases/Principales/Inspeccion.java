@@ -80,6 +80,7 @@ public class Inspeccion implements Serializable {
         colmena.agregarInspeccion(inspeccion);
         DatosApicola.getInstancia().guardarColmena(colmena);
         System.out.println(inspeccion.resumen(colmena));
+        System.out.printf("📦 Colmena %s actualizada. Estado: %s%n", colmena.getId(), colmena.getEstadoSalud());
     }
 
     public Date getFecha() {
