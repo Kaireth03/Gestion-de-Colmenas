@@ -113,7 +113,7 @@ public class Inspeccion implements Serializable {
 
     private static String getResultado(int puntos) {
         return switch (puntos) {
-            case 2, -> "revisar pronto";
+            case 2 -> "revisar pronto";
             case 3 -> "buen estado";
             default -> "Atención urgente";
         };
