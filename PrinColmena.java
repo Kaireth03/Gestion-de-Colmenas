@@ -9,6 +9,8 @@ public class PrinColmena {
     static final DatosApicola datosApicola = DatosApicola.getInstancia();
     static final Scanner scanner = new Scanner(System.in);
 
+    String ruta = Paths.get(System.getProperty("user.home"), "Documents", "colmenas.json").toString();
+
     public static void main(String[] args) {
         try {
             boolean continuar = true;
@@ -22,6 +24,30 @@ public class PrinColmena {
         }
     }
 
+public void Verificar(){
+    File Json=new File(ruta);
+
+    if (Json.exists()) {
+
+    System.out.println("Se encontró un archivo de datos en: " + ruta);
+            System.out.println("¿Desea cargarlo? (si/no)");
+            String respuesta = scanner.nextLine().trim().toLowerCase();
+
+            if (respuesta.equals("si")) {
+                System.out.println("🐝Cargando archivo...🐝");
+                
+            } else {
+                System.out.println("Advertencia: No cargar el archivo puede hacer que se pierdan los datos anteriores.");
+            }
+        } 
+        else {
+          
+            System.out.println("No se encontró archivo de datos en: " + ruta);
+            System.out.println("Se continuará normalmente.");
+        }
+    }
+
+   
     public static void mostrarMenu() {
         System.out.println("""
         ╔═════════════════════════════════════════════════════════════╗
@@ -36,7 +62,6 @@ public class PrinColmena {
         5️📝  Mostrar Información Registrada
         6️🧑🏻‍🌾  Asignar Apicultor a Colmena
         7️📩  Editar Información Existente
-        8🐝  Cargar Datos Colmena
         9🔚  Salir del Sistema
         """);
         System.out.print("📜 Indica tu próximo movimiento: ");
