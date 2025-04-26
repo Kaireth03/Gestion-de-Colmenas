@@ -112,12 +112,12 @@ public class Inspeccion implements Serializable {
     }
 
     private static String getResultado(int puntos) {
-        return switch (puntos) {
-            case 3, 4 -> "Buen estado";
-            case 2 -> "Revisar pronto";
-            default -> "Atención urgente";
-        };
-    }
+    return switch (puntos) {
+        case 3, -> "Buen estado";
+        case 2 -> "Revisar pronto";
+        default -> "Atención urgente";
+    };
+}
 
     private static String getAccion(String resultado) {
         return switch (resultado) {
