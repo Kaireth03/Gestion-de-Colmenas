@@ -1,10 +1,23 @@
 package Clases.Principales;
 
+// ─────────────────────────────────────────────────────────────
+// Imports
+// ─────────────────────────────────────────────────────────────
 import java.util.ArrayList;
 import java.util.List;
 
+// ─────────────────────────────────────────────────────────────
+// Clase principal
+// ─────────────────────────────────────────────────────────────
 public class GestorColmenas {
 
+    // ─────────────────────────────────────────────────────────────
+    // Métodos públicos principales
+    // ─────────────────────────────────────────────────────────────
+
+    /**
+     * Registra una nueva colmena solicitando los datos al usuario.
+     */
     public static void registrarColmena() {
         Utils.delayPrint("\n🐝 REGISTRO DE NUEVA COLMENA", 500);
 
@@ -26,6 +39,9 @@ public class GestorColmenas {
         }
     }
 
+    /**
+     * Permite al usuario registrar inspecciones de colmenas.
+     */
     public static void registrarInspeccion() {
         String modo = Utils.solicitarCampo("""
         🔍 ¿Desea inspeccionar una sola colmena o todas?
@@ -39,6 +55,13 @@ public class GestorColmenas {
         }
     }
 
+    // ─────────────────────────────────────────────────────────────
+    // Métodos privados auxiliares (inspecciones)
+    // ─────────────────────────────────────────────────────────────
+
+    /**
+     * Realiza una inspección manual sobre una sola colmena seleccionada.
+     */
     private static void inspeccionarUnaColmena() {
         String id = Utils.solicitarCampo("Ingrese el ID de la colmena a inspeccionar: ");
         Colmena colmena = buscarColmena(id);
@@ -52,10 +75,20 @@ public class GestorColmenas {
         Utils.delayPrint("✅ Inspección realizada correctamente para la colmena ID: " + id, 500);
     }
 
+    /**
+     * Realiza inspecciones automáticas sobre todas las colmenas existentes usando hilos.
+     */
     private static void inspeccionarMultiplesColmenas() {
         Inspeccion.inspeccionarTodasColmenasConHilos();
     }
 
+    // ─────────────────────────────────────────────────────────────
+    // Métodos privados auxiliares (registro de datos)
+    // ─────────────────────────────────────────────────────────────
+
+    /**
+     * Solicita al usuario un estado de salud válido para la colmena.
+     */
     private static String solicitarEstadoSalud() {
         final String mensaje = """
         Estado de Salud:
@@ -73,6 +106,9 @@ public class GestorColmenas {
         }
     }
 
+    /**
+     * Solicita al usuario un ID único de colmena siguiendo el formato COL###.
+     */
     private static String solicitarIdUnico() {
         while (true) {
             String id = Utils.solicitarCampo("Ingrese ID de la colmena (formato COL###): ").toUpperCase();
@@ -91,6 +127,9 @@ public class GestorColmenas {
         }
     }
 
+    /**
+     * Busca una colmena por su ID en el sistema.
+     */
     private static Colmena buscarColmena(String id) {
         return DatosApicola.getInstancia().obtenerColmenas().stream()
                 .filter(c -> c.getId().equals(id))
@@ -98,6 +137,9 @@ public class GestorColmenas {
                 .orElse(null);
     }
 
+    /**
+     * Capitaliza el primer carácter de un texto.
+     */
     private static String capitalize(String text) {
         return text.substring(0, 1).toUpperCase() + text.substring(1);
     }
