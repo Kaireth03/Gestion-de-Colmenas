@@ -3,33 +3,51 @@ package Clases.Principales;
 import java.util.List;
 
 public class AbejaReina extends Abeja {
-    // Constantes de estado de salud podrían moverse a la clase Abeja si son generales,
-    // o mantenerse aquí si son específicas de la Reina. Por ahora se quedan aquí.
+
+    // ───────────────────────────────────────────
+    // CONSTANTES
+    // ───────────────────────────────────────────
+
+    // Lista de estados de salud válidos para una Abeja Reina
+    // Se mantiene aquí en lugar de Abeja general porque estos estados aplican específicamente a la Reina
     public static final List<String> ESTADOS_SALUD_VALIDOS = List.of(
             "En plenitud",
             "Zumbido estable",
             "Enferma"
     );
 
-    // Atributos específicos de la Reina
+    // ───────────────────────────────────────────
+    // ATRIBUTOS
+    // ───────────────────────────────────────────
+
+    // Productividad de la reina medida como un número decimal (porcentaje o índice relativo)
     private final float productividad;
 
-    // Constructor
+    // ───────────────────────────────────────────
+    // CONSTRUCTOR
+    // ───────────────────────────────────────────
+
     public AbejaReina(String id, String estadoSalud, byte edad, float productividad) {
-        // Llamada al constructor de la clase padre (Abeja)
-        super(id, "Reina", estadoSalud, (int) edad); // Se asume que 'edad' en AbejaReina son días y se convierte a int
-        // Inicialización de atributos propios de AbejaReina
-        this.productividad = productividad;
-        // Los atributos id, tipo, estadoSalud, edadDias son manejados por la clase Abeja
+        // Se llama primero al constructor de la clase base (Abeja) para inicializar los atributos heredados
+        super(id, "Reina", estadoSalud, (int) edad); // 'edad' se recibe como byte para optimizar memoria, pero Abeja espera int
+        this.productividad = productividad; // Se inicializa el atributo específico de la Reina
     }
 
-    // Getters específicos de AbejaReina
+    // ───────────────────────────────────────────
+    // MÉTODOS GETTER
+    // ───────────────────────────────────────────
+
+    // Permite acceder a la productividad de la Reina de manera segura
     public float getProductividad() {
         return productividad;
     }
 
+    // ───────────────────────────────────────────
+    // TO STRING
+    // ───────────────────────────────────────────
 
-    // toString modificado para incluir información de la clase base
+    // Se sobrescribe toString() para mostrar toda la información relevante
+    // Incluye los atributos de la clase base + la productividad específica de la Reina
     @Override
     public String toString() {
         return "🐝 Abeja Reina {" +
