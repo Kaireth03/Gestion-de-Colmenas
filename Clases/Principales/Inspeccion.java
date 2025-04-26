@@ -1,5 +1,8 @@
 package Clases.Principales;
 
+// ─────────────────────────────────────────────────────────────
+// Imports
+// ─────────────────────────────────────────────────────────────
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,7 +10,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+// ─────────────────────────────────────────────────────────────
+// Clase principal: Inspeccion
+// ─────────────────────────────────────────────────────────────
 public class Inspeccion implements Serializable {
+
+    // ─────────────────────────────────────────────────────────────
+    // Atributos
+    // ─────────────────────────────────────────────────────────────
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -16,6 +26,9 @@ public class Inspeccion implements Serializable {
     private final String acciones;
     private final String methodUsed;
 
+    // ─────────────────────────────────────────────────────────────
+    // Constructor privado
+    // ─────────────────────────────────────────────────────────────
     private Inspeccion(String resultado, String acciones, String methodUsed) {
         this.fecha = new Date();
         this.resultado = resultado;
@@ -23,6 +36,13 @@ public class Inspeccion implements Serializable {
         this.methodUsed = methodUsed;
     }
 
+    // ─────────────────────────────────────────────────────────────
+    // Métodos públicos principales
+    // ─────────────────────────────────────────────────────────────
+
+    /**
+     * Realiza una inspección sobre una colmena y genera un informe.
+     */
     public static Inspeccion realizar(Colmena colmena, String methodUsed) {
         System.out.println("🔍 Realizando inspección sobre colmena " + colmena.getId() + "...");
         delay();
@@ -47,6 +67,9 @@ public class Inspeccion implements Serializable {
         );
     }
 
+    /**
+     * Inspecciona todas las colmenas concurrentemente utilizando hilos.
+     */
     public static void inspeccionarTodasColmenasConHilos() {
         List<Colmena> colmenas = DatosApicola.getInstancia().obtenerColmenas();
 
@@ -75,6 +98,9 @@ public class Inspeccion implements Serializable {
         System.out.println("✅ Inspecciones completas.");
     }
 
+    /**
+     * Realiza una inspección sobre una colmena, guarda los resultados, y actualiza los datos.
+     */
     public static void inspeccionarYGuardar(Colmena colmena, String metodo) {
         Inspeccion inspeccion = realizar(colmena, metodo);
         colmena.agregarInspeccion(inspeccion);
@@ -82,6 +108,10 @@ public class Inspeccion implements Serializable {
         System.out.println(inspeccion.resumen(colmena));
         System.out.printf("📦 Colmena %s actualizada. Estado: %s%n", colmena.getId(), colmena.getEstadoSalud());
     }
+
+    // ─────────────────────────────────────────────────────────────
+    // Getters
+    // ─────────────────────────────────────────────────────────────
 
     public Date getFecha() {
         return fecha;
@@ -95,6 +125,9 @@ public class Inspeccion implements Serializable {
         return acciones;
     }
 
+    /**
+     * Genera un resumen de la inspección realizada.
+     */
     public String resumen(Colmena colmena) {
         return String.format("""
             📋 Inspección de la colmena %s
@@ -105,33 +138,60 @@ public class Inspeccion implements Serializable {
             """, colmena.getId(), fecha, resultado, acciones, methodUsed);
     }
 
+    // ─────────────────────────────────────────────────────────────
+    // Métodos privados auxiliares
+    // ─────────────────────────────────────────────────────────────
+
+    /**
+     * Simula una demora para dar realismo a la inspección.
+     */
     private static void delay() {
         try {
             Thread.sleep(ThreadLocalRandom.current().nextInt(400, 1200));
         } catch (InterruptedException ignored) {}
     }
 
+    /**
+     * Determina el resultado de la inspección basado en puntos.
+     */
     private static String getResultado(int puntos) {
         return switch (puntos) {
-            case 2 -> "revisar pronto";
-            case 3 -> "buen estado";
+            case 3, 4 -> "Buen estado";
+            case 2 -> "Revisar pronto";
             default -> "Atención urgente";
         };
     }
 
+    /**
+     * Determina las acciones recomendadas basadas en el resultado.
+     */
     private static String getAccion(String resultado) {
+        resultado = capitalizeFirstLetter(resultado);
         return switch (resultado) {
             case "Buen estado" -> "Revisar en 6 meses";
             case "Revisar pronto" -> "Revisar en 1 mes";
             default -> "Intervención inmediata";
         };
     }
+
+    /**
+     * Capitaliza la primera letra de un texto.
+     */
+    private static String capitalizeFirstLetter(String str) {
+        if (str == null || str.isEmpty()) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
 }
 
+// ─────────────────────────────────────────────────────────────
+// Clase secundaria: HiloInspeccion
+// ─────────────────────────────────────────────────────────────
 class HiloInspeccion implements Runnable {
+
     private final Colmena colmena;
     private final String metodo;
 
+    // Constructor
     public HiloInspeccion(Colmena colmena, String metodo) {
         this.colmena = colmena;
         this.metodo = metodo;
