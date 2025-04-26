@@ -2,38 +2,42 @@ package Clases.Principales;
 
 import java.util.List;
 
-public class AbejaReina {
+public class AbejaReina extends Abeja {
+    // Constantes de estado de salud podrían moverse a la clase Abeja si son generales,
+    // o mantenerse aquí si son específicas de la Reina. Por ahora se quedan aquí.
     public static final List<String> ESTADOS_SALUD_VALIDOS = List.of(
             "En plenitud",
             "Zumbido estable",
             "Enferma"
     );
 
-    private final String estadoSalud;
-    private final byte edad;
+    // Atributos específicos de la Reina
     private final float productividad;
 
-    public AbejaReina(String estadoSalud, byte edad, float productividad) {
+    // Constructor
+    public AbejaReina(String id, String estadoSalud, byte edad, float productividad) {
+        // Llamada al constructor de la clase padre (Abeja)
+        super(id, "Reina", estadoSalud, (int) edad); // Se asume que 'edad' en AbejaReina son días y se convierte a int
+        // Inicialización de atributos propios de AbejaReina
         this.productividad = productividad;
-        this.edad = edad;
-        this.estadoSalud = estadoSalud;
+        // Los atributos id, tipo, estadoSalud, edadDias son manejados por la clase Abeja
     }
 
-    public String getEstadoSalud() {
-        return estadoSalud;
-    }
-
+    // Getters específicos de AbejaReina
     public float getProductividad() {
         return productividad;
     }
 
 
+    // toString modificado para incluir información de la clase base
     @Override
     public String toString() {
         return "🐝 Abeja Reina {" +
-                "Productividad = '" + productividad + '\'' +
-                ", Edad = " + edad +
-                ", Estado de Salud = '" + estadoSalud + '\'' +
+                "id='" + getId() + '\'' +
+                ", tipo='" + getTipo() + '\'' +
+                ", estadoSalud='" + getEstadoSalud() + '\'' +
+                ", edadDias=" + getEdadDias() +
+                ", productividad=" + productividad +
                 '}';
     }
 }
